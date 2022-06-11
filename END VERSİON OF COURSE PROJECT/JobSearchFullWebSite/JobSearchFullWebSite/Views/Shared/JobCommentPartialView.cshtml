@@ -1,0 +1,57 @@
+﻿@using JobSearchFullWebSite.Models
+@model List<JobComment>
+@foreach (var item in Model)
+{
+    <div class="comment d-flex flex-row mt-3">
+        <div class="CommentUserImage">
+            @if (item.AppUser.Candidate.CandidateImages.FirstOrDefault(x => x.IsPoster) != null && item.AppUser.Candidate.CandidateImages.FirstOrDefault(x => x.IsPoster).Image != null)
+            {
+                <img src="~/images/candidateImage/@item.AppUser.Candidate.CandidateImages.FirstOrDefault(x => x.IsPoster).Image"
+                     alt=""
+                     style="width: 50px; height: 50px; border-radius: 50%" />
+            }
+            else
+            {
+                <img src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g"
+                     alt=""
+                     style="width: 50px !important; height: 50px !important; border-radius: 50%" />
+            }
+
+        </div>
+        <div class="CommentContent ms-3 w-100">
+            <div class="CommentNameDateRate d-flex flex-row w-100">
+                <div class="CommentUserNameAndDate d-flex flex-column col-6">
+                    <div class="CommentUserName"><b>@(item.AppUser.Candidate.FullName!=null? item.AppUser.Candidate.FullName:item.AppUser.UserName)</b></div>
+                    <div class="CommentWriteDate grey">@item.CreatedAt.ToString("MM.dd.yyyy")</div>
+                </div>
+                @*<div class="
+                      CommentUserRate
+                      d-flex
+                      justify-content-end
+                      flex-row
+                      col-6
+                    ">
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star"></span>
+                          <span class="fa fa-star"></span>
+                      </div>*@
+            </div>
+            <p class="grey">
+                @item.Comment
+            </p>
+        </div>
+    </div>
+    <br />
+    @*@if (item.Job.JobComments.Count() > 4)
+    {
+        <div style="">
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <a class="load-comments text-decoration-none" data-totalpage="@ViewBag.TotalCommentPage" style="color:white;background-color:red;color:white;width:100px;padding:5px;text-align:center;border-radius:26px " asp-action="LoadComment" asp-controller="job" data-nextPage="2" asp-route-id="@Model.Job.Id">
+                    Daha çox
+                </a>
+            </div>
+        </div>
+    }*@
+}

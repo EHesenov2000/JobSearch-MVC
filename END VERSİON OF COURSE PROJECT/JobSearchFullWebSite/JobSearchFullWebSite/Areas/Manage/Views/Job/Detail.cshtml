@@ -1,0 +1,60 @@
+﻿@using JobSearchFullWebSite.Models
+@using System.ComponentModel
+@using JobSearchFullWebSite.Enums
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model Job
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+}
+@{
+    List<ApplyStatus> applyStatuses = new List<ApplyStatus>();
+    //DescriptionAttribute d = (DescriptionAttribute)(((typeof(ApplyStatus)).GetField(ApplyStatus.Accepted.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), true))[0];
+    //DescriptionAttribute e = (DescriptionAttribute)(((typeof(ApplyStatus)).GetField(ApplyStatus.AdminReject.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), true))[0];
+    //DescriptionAttribute f = (DescriptionAttribute)(((typeof(ApplyStatus)).GetField(ApplyStatus.Block.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), true))[0];
+    //DescriptionAttribute g = (DescriptionAttribute)(((typeof(ApplyStatus)).GetField(ApplyStatus.Pending.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), true))[0];
+
+    applyStatuses.Add(ApplyStatus.Accepted);
+    applyStatuses.Add(ApplyStatus.AdminReject);
+    applyStatuses.Add(ApplyStatus.Block);
+    applyStatuses.Add(ApplyStatus.Pending);
+}
+<div class="card my-5 p-3 mx-5">
+    <div class="d-flex flex-row justify-content-center"><h2>@Model.Name</h2></div>
+    <div>Şəhər: @Model.City.CityName</div>
+    <div>Kateqoriya: @Model.JobCategory.Name</div>
+    @{
+        DescriptionAttribute a = (DescriptionAttribute)(((typeof(JobSalaryForTime)).GetField(Model.OfferedSalaryForTime.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), true))[0];
+        <div>Əməkhaqqı: @Model.OfferedMinSalary-@Model.OfferedMaxSalary/@a.Description</div>
+    }
+    @{
+        DescriptionAttribute b = (DescriptionAttribute)(((typeof(Gender)).GetField(Model.RequiredGender.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), true))[0];
+        <div>Cinsi: @b.Description</div>
+    }
+    @{
+        DescriptionAttribute c = (DescriptionAttribute)(((typeof(ApplyStatus)).GetField(Model.ApplyStatus.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), true))[0];
+        <div>Status: @c.Description</div>
+
+    }
+    <div>Şirkət: @Model.Employer.Name</div>
+    <div>Yaradıldı: @Model.CreatedAt.ToString("MM.dd.yyyy")</div>
+    @if (Model.ApplyStatus != ApplyStatus.UserReject)
+    {
+        <form method="post" enctype="multipart/form-data" asp-action="changestatus" asp-route-id="@Model.Id">
+            <span>Statusu</span>
+            <select class="border-radius border-0 backColorBlue py-2 px-2" name="applyStatus" asp-for="@Model.ApplyStatus" asp-items="@(new SelectList(applyStatuses))">
+            </select>
+            @*<input type="hidden" name="id" value="@Model.Id" />*@
+            <button class="btn btn-success" type="submit">Statusu dəyiş</button>
+        </form>
+
+    }
+<br />
+    <form method="post" asp-action="changeFeatured" >
+        <span>Xüsusidirmi?</span>
+        <input type="checkbox" name="isFeatured"  asp-for="@Model.IsFeatured" />
+        <input type="hidden" name="id" value="@Model.Id" />
+        <button class="btn btn-success" type="submit">Xüsusiliyi dəyiş</button>
+    </form>
+
+</div>

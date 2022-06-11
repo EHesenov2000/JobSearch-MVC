@@ -1,0 +1,447 @@
+﻿@using JobSearchFullWebSite.DTOs
+@model CandidateResumeEditDto
+@{
+    ViewData["Title"] = "CandidateResumeEdit";
+}
+
+<div class="cont">
+    <div class="main px-4">
+        <div class="mx-3">
+            <br />
+            <br />
+            <button class="showOn700 btn btn-primary" data-toggle="modal"
+                    data-target="#myModal1">
+                <i class="fas fa-align-justify white"></i>&nbsp;&nbsp;&nbsp;<span class="white">Menyu</span>
+            </button>
+            <form method="post" enctype="multipart/form-data">
+
+                <br />
+                <br />
+                <div class="d-flex flex-row justify-content-center">
+                    <h2><b>CV məlumatlarını yenilə </b></h2>
+                </div>
+                <div class="card p-4 mt-4">
+                    <b>CV</b>
+                    <br>
+                    <span>CV fayl</span>
+                    @{ int n = 0;
+                        @if (Model.CandidateCVs != null)
+                        {
+                            @foreach (var item in Model.CandidateCVs)
+                            {
+                                <div class=" flex-row align-items-center mt-2 RemoveCVItems">
+                                    <input type="hidden" name="CandidateCVsId[]" value="@item.Id" />
+                                    <input type="hidden" name="CandidateCVs[@n].CVName" value="@item.CVName" />
+                                    <div class="backColorBlue border-radius px-2">
+                                        <span class="blue">@item.CVName</span>
+                                    </div>
+                                    <div>
+                                        <div class="p-2 backColorBlue  CvXIcon d-flex align-items-center flex-row justify-content-center border-radius ms-2 RemoveCVItem">
+                                            <i class="fas fa-times " style="color:red"></i>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                n++;
+                            }
+                        } }
+
+
+                    <div class="col-md-4 col-12 d-flex flex-row align-items-center mt-2">
+                        <input class="form-control  " asp-for="@Model.CandidateCV" style="display:block !important; width:auto !important;height:auto !important;">
+                        <span asp-validation-for="@Model.CandidateCV" class="text-danger"></span>
+                    </div>
+                    <div><span class="grey">Fayl formatı: .pdf .docx .doc</span></div>
+                </div>
+                <br>
+
+                <div class="card p-4 mt-4">
+                    <b>Təhsil</b>
+                    <br>
+
+                    <div class="EducationItems">
+                        @{ int count = 0;
+                            @foreach (var item in Model.CandidateEducationItems)
+                            {
+                                <div class="CandidateResumeItem">
+                                    <input type="hidden" name="CandidateEducationItemsId[]" value="@item.Id" />
+                                    <input type="hidden" class="EducationClickItem" name="CandidateEducationItems[@count].Id" value="@item.Id" />
+                                    <input type="hidden" class="EducationClickItem" name="CandidateEducationItems[@count].CandidateId" value="@item.CandidateId" />
+
+                                    <div class="accordion mt-3 border-radius">@item.Title</div>
+                                    <div class="panel mt-2">
+                                        <p>
+                                            <div class="row ">
+                                                <div class="col-lg-3 d-flex flex-row align-items-center"><span class="grey ">Başlıq</span></div>
+                                                <div class="col-lg-9"><input type="text" class="border-0 border-radius backColorBlue py-2 px-3 w-100 EducationClickItem" placeholder="Başlıq" name="CandidateEducationItems[@count].Title" value="@item.Title"></div>
+                                            </div>
+                                            <br>
+                                            <div class="row ">
+                                                <div class="col-lg-3 d-flex flex-row align-items-center"><span class="grey ">Təhsil aldığı məkan</span></div>
+                                                <div class="col-lg-9"><input type="text" class="border-0 border-radius backColorBlue py-2 px-3 w-100 EducationClickItem" placeholder="Məs: Neft Universiteti" name="CandidateEducationItems[@count].EducationPlace" value="@item.EducationPlace"></div>
+                                            </div>
+                                            <br>
+                                            <div class="row ">
+                                                <div class="col-lg-3 d-flex flex-row align-items-center"><span class="grey ">İl aralığı</span></div>
+                                                <div class="col-lg-9"><input type="text" class="border-0 border-radius backColorBlue py-2 px-3 w-100 EducationClickItem" placeholder="Məs: 2018-2019" name="CandidateEducationItems[@count].Years" value="@item.Years"></div>
+                                            </div>
+                                            <br>
+                                            <div class="row ">
+                                                <div class="col-lg-3 d-flex flex-row align-items-center"><span class="grey ">Məlumat</span></div>
+                                                <div class="col-lg-9"><input style="min-height: 150px;max-height: 150px;" class="border-0 border-radius backColorBlue py-2 px-3 w-100 EducationClickItem" placeholder="Məlumat" name="CandidateEducationItems[@count].Content" value="@item.Content"></div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="d-flex flex-row justify-content-end RemoveItem"><div class="btn btn-danger py-2 px-2"><span class="">Sil</span></div></div>
+                                            </div>
+                                        </p>
+                                    </div>
+                                </div>
+                                <br>
+
+                                count++;
+                            }}
+                    </div>
+                    <div>
+                        <div class="btn backColorBlue py-2 px-4 d-inline-block AddEducationItem"><span class="blue">Əlavə et</span></div>
+
+                    </div>
+                </div>
+                <br>
+                <div class="card p-4 mt-4">
+                    <b>Təcrübə</b>
+                    <br>
+                    <div class="WorkItems">
+                        @{int count1 = 0;
+                            @foreach (var item in Model.CandidateWorkItems)
+                            {
+                                <div class="CandidateResumeItem">
+                                    <input type="hidden" name="CandidateWorkItemsId[]" value="@item.Id" />
+                                    <input type="hidden" class="WorkClickItem" name="CandidateWorkItems[@count1].Id" value="@item.Id" />
+                                    <input type="hidden" class="WorkClickItem" name="CandidateWorkItems[@count1].CandidateId" value="@item.CandidateId" />
+                                    <div class="accordion mt-3 border-radius">@item.Title</div>
+                                    <div class="panel mt-2">
+                                        <p>
+                                            <div class="row ">
+                                                <div class="col-lg-3 d-flex flex-row align-items-center"><span class="grey ">Başlıq</span></div>
+                                                <div class="col-lg-9"><input type="text" class="border-0 border-radius backColorBlue py-2 px-3 w-100 WorkClickItem" placeholder="Başlıq" name="CandidateWorkItems[@count1].Title" value="@item.Title"></div>
+                                            </div>
+                                            <br>
+                                            <div class="row ">
+                                                <div class="col-lg-3 d-flex flex-row align-items-center"><span class="grey ">Başlama tarixi</span></div>
+                                                <div class="col-lg-9"><input type="date" class="border-0 border-radius backColorBlue py-2 px-3 w-100 WorkClickItem" placeholder="Start Date" name="CandidateWorkItems[@count1].StartDate" value="@item.StartDate"></div>
+                                            </div>
+                                            <br>
+                                            <div class="row ">
+                                                <div class="col-lg-3 d-flex flex-row align-items-center"><span class="grey ">Bitmə tarixi</span></div>
+                                                <div class="col-lg-9"><input type="date" class="border-0 border-radius backColorBlue py-2 px-3 w-100 WorkClickItem" placeholder="End Date" name="CandidateWorkItems[@count1].EndDate" value="@item.EndDate"></div>
+                                            </div>
+                                            <br>
+                                            <div class="row ">
+                                                <div class="col-lg-3 d-flex flex-row align-items-center"><span class="grey ">İş yeri</span></div>
+                                                <div class="col-lg-9"><input type="text" class="border-0 border-radius backColorBlue py-2 px-3 w-100 WorkClickItem" placeholder="İş yeri" name="CandidateWorkItems[@count1].WorkPlace" value="@item.WorkPlace"></div>
+                                            </div>
+                                            <br>
+                                            <div class="row ">
+                                                <div class="col-lg-3 d-flex flex-row align-items-center"><span class="grey ">Məlumat</span></div>
+                                                <div class="col-lg-9"><input style="min-height: 150px;max-height: 150px;" class="border-0 border-radius backColorBlue py-2 px-3 w-100 WorkClickItem" placeholder="Məlumat" name="CandidateWorkItems[@count1].Content" value="@item.Content"></div>
+                                            </div>
+                                            <br />
+
+                                            <div class="row">
+                                                <div class="d-flex flex-row justify-content-end RemoveItem"><div class="btn btn-danger py-2 px-2"><span class="">Sil</span></div></div>
+                                            </div>
+                                        </p>
+                                    </div>
+                                </div>
+                                <br>
+                                count1++;
+                            }}
+                    </div>
+                    <div>
+                        <div class="btn backColorBlue py-2 px-4 d-inline-block AddWorkItem"><span class="blue">Əlavə et</span></div>
+
+                    </div>
+                </div>
+                <br>
+                <div class="card p-4 mt-4">
+                    <b>Nailiyyət</b>
+                    <br>
+                    <div class="AwardItems">
+                        @{ int count2 = 0;
+                            @foreach (var item in Model.CandidateAwardItems)
+                            {
+
+                                <div class="CandidateResumeItem">
+                                    <input type="hidden" name="CandidateAwardItemsId[]" value="@item.Id" />
+                                    <input type="hidden" class="AwardClickItem" name="CandidateAwardItems[@count2].Id" value="@item.Id" />
+                                    <input type="hidden" class="AwardClickItem" name="CandidateAwardItems[@count2].CandidateId" value="@item.CandidateId" />
+                                    <div class="accordion mt-3 border-radius">@item.Title</div>
+                                    <div class="panel mt-2">
+                                        <p>
+                                            <div class="row ">
+                                                <div class="col-lg-3 d-flex flex-row align-items-center"><span class="grey ">Başlıq</span></div>
+                                                <div class="col-lg-9"><input type="text" class="border-0 border-radius backColorBlue py-2 px-3 w-100 AwardClickItem" placeholder="Başlıq" name="CandidateAwardItems[@count2].Title" value="@item.Title"></div>
+                                            </div>
+                                            <br>
+                                            <div class="row ">
+                                                <div class="col-lg-3 d-flex flex-row align-items-center"><span class="grey ">İl aralığı</span></div>
+                                                <div class="col-lg-9"><input type="text" class="border-0 border-radius backColorBlue py-2 px-3 w-100 AwardClickItem" placeholder="Məs: 2018-2022" name="CandidateAwardItems[@count2].Years" value="@item.Years"></div>
+                                            </div>
+                                            <br>
+                                            <div class="row ">
+                                                <div class="col-lg-3 d-flex flex-row align-items-center"><span class="grey ">Məlumat</span></div>
+                                                <div class="col-lg-9"><input style="min-height: 150px;max-height: 150px;" class="border-0 border-radius backColorBlue py-2 px-3 w-100 AwardClickItem" placeholder="Məlumat" name="CandidateAwardItems[@count2].Content" value="@item.Content"></div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="d-flex flex-row justify-content-end RemoveItem"><div class="btn btn-danger py-2 px-2"><span class="">Sil</span></div></div>
+                                            </div>
+                                        </p>
+                                    </div>
+                                </div>
+                                <br>
+                                count2++;
+                            }}
+                    </div>
+
+                    <div>
+                        <div class="btn backColorBlue py-2 px-4 d-inline-block AddAwardItem"><span class="blue">Əlavə et</span></div>
+                    </div>
+                </div>
+                <br>
+                <div class="card p-4 mt-4">
+                    <b>Bilik</b>
+                    <br />
+                    <div class="SkillItems">
+                        @{ int count3 = 0;
+                            foreach (var item in Model.CandidateSkills)
+                            {
+                                <div class="CandidateResumeItem">
+                                    <input type="hidden" name="CandidateSkillsId[]" value="@item.Id" />
+                                    <input type="hidden" class="SkillClickItem" name="CandidateSkills[@count3].Id" value="@item.Id" />
+                                    <input type="hidden" class="SkillClickItem" name="CandidateSkills[@count3].CandidateId" value="@item.CandidateId" />
+                                    <div class="accordion mt-3 border-radius">@item.Name</div>
+                                    <div class="panel mt-2">
+                                        <p>
+                                            <div class="row ">
+                                                <div class="col-lg-3 d-flex flex-row align-items-center"><span class="grey ">Başlıq</span></div>
+                                                <div class="col-lg-9"><input type="text" class="border-0 border-radius backColorBlue py-2 px-3 w-100 SkillClickItem" placeholder="Başlıq" name="CandidateSkills[@count3].Name" value="@item.Name"></div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="d-flex flex-row justify-content-end RemoveItem"><div class="btn btn-danger py-2 px-2"><span class="">Sil</span></div></div>
+                                            </div>
+                                        </p>
+                                    </div>
+                                </div>
+                                <br>
+                                count3++;
+                            }
+                        }
+                    </div>
+
+                    <div>
+                        <div class="btn backColorBlue py-2 px-4 d-inline-block AddSkillItem"><span class="blue">Əlavə et</span></div>
+                    </div>
+                </div>
+                <div class="card p-4 mt-4">
+                    <b>Şəkillər</b>
+                    <br>
+                    <div class="row g-4">
+                        @{ int m = 0;
+                            if (Model.CandidateImages != null)
+                            {
+                                @foreach (var item in Model.CandidateImages.Where(x => !x.IsPoster))
+                                {
+
+
+                                    <div class="col-lg-3 col-md-6 col-12 PositionRelativeForIcon">
+                                        <input type="hidden" name="ImagesId[]" value="@item.Id" />
+                                        <input type="hidden" name="CandidateImages[@m].Image" value="@item.Image" />
+                                        <img src="~/images/candidateImage/@item.Image" alt="" class="border-radius" style="width: 200px;height: 200px;">
+                                        <div class="PortfolioXIcon backColorBlue  border-radius p-2 d-flex align-items-center justify-content-center RemoveImageItem" style="width: 20px;height: 20px;"><i class="fas fa-times blue"></i></div>
+                                    </div>
+                                    m++;
+                                }}
+                        }
+                        <div>
+                            <input class="form-control col-md-2 " asp-for="@Model.Images" style="display:block !important; width:auto !important;height:auto !important;">
+                            <span asp-validation-for="@Model.Images" class="text-danger"></span>
+
+                        </div>
+
+                    </div>
+                </div>
+                <br />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <br />
+                <button type="submit" class="btn btn-primary">Yadda saxla</button>
+            </form>
+
+            <br>
+            <br>
+            <br>
+
+
+        </div>
+    </div>
+    <div class="sidebar ps-3">
+        <br />
+        <br />
+        <div class="">
+            <div class="ImageAndUserName flex-row">
+                <div class="UserImage d-flex align-items-center">
+                    @if (Model.CandidateImages.FirstOrDefault(x => x.IsPoster) != null && Model.CandidateImages.FirstOrDefault(x => x.IsPoster).Image != null)
+                    {
+                        <img src="~/images/candidateImage/@Model.CandidateImages.FirstOrDefault(x=>x.IsPoster).Image"
+                             alt=""
+                             style="width: 60px; height: 60px; border-radius: 50%" />
+                    }
+                    else
+                    {
+                        <img src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g"
+                             alt=""
+                             style="width: 60px; height: 60px; border-radius: 50%" />
+                    }
+
+                </div>
+                <div class="
+                    d-flex
+                    flex-column
+                    ms-3
+                    align-items-center
+                    justify-content-center
+                  ">
+                    @if (Model.Candidate != null && Model.Candidate.FullName != null)
+                    {
+                        <div class="UserName black"><b>@Model.Candidate.FullName</b></div>
+                    }
+                    else
+                    {
+                        <div class="UserName black"><b>@Model.Candidate.AppUser.UserName</b></div>
+                    }
+                    @if (Model.Candidate.City != null)
+                    {
+                        <div class="UserCity black">@Model.Candidate.City.CityName</div>
+                    }                    <div class="UserProfileButton">
+                        <a class="text-decoration-none " asp-action="detail" asp-controller="candidate" asp-route-id="@Model.Id">
+                            <button class="btn btn-primary" style="font-size: 10px">
+                                Profilə bax
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="d-flex flex-column">
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateDashboard" asp-controller="candidate" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="far fa-file-alt"></i></div>
+                    <div class="SectionName ms-2">Statistika</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateProfileEdit" asp-controller="candidate" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="far fa-user-circle"></i></div>
+                    <div class="SectionName ms-2">Profil</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateResumeEdit" asp-controller="candidate" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="fas fa-file-signature"></i></div>
+                    <div class="SectionName ms-2">CV-im</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateApplieds" asp-controller="candidate" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="fas fa-volume-up"></i></div>
+                    <div class="SectionName ms-2">Müraciətlərim</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateShortList" asp-controller="candidate" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="far fa-bookmark"></i></div>
+                    <div class="SectionName ms-2">Sonra baxılacaqlar</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateFollowings" asp-controller="candidate" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="far fa-user"></i></div>
+                    <div class="SectionName ms-2">İzlədiklərim</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="getcontacts" asp-controller="candidate">
+                    <div class="Icon"><i class="far fa-user"></i></div>
+                    <div class="SectionName ms-2">Əlaqələr</div>
+                </a>
+                @*<a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3">
+            <div class="Icon"><i class="fas fa-volume-up"></i></div>
+            <div class="SectionName ms-2">Alert Jobs</div>
+        </a>
+        <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3">
+            <div class="Icon"><i class="fab fa-weixin"></i></div>
+            <div class="SectionName ms-2">Messages</div>
+        </a>*@
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateEdit" asp-controller="account">
+                    <div class="Icon"><i class="fas fa-lock"></i></div>
+                    <div class="SectionName ms-2">Şifrəni yenilə</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none delete-profile-btn" asp-action="RemoveCandidate" asp-controller="account" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="far fa-trash-alt"></i></div>
+                    <div class="SectionName ms-2">Hesabı sil</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius me-2 py-3 text-decoration-none" asp-action="logout" asp-controller="account">
+                    <div class="Icon"><i class="fas fa-power-off"></i></div>
+                    <div class="SectionName ms-2">Çıxış</div>
+                </a>
+            </div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+        </div>
+    </div>
+</div>
+
+     
+<style>
+    body {
+        font-size: 15px !important;
+        background-color: #f4f7fc;
+    }
+
+    .UserProfileItem {
+        padding-bottom: 5px;
+        padding-top: 5px;
+    }
+
+        .UserProfileItem:hover {
+            background-color: #f4f7fc;
+        }
+
+    .sidebar {
+        background: white;
+        color: white;
+        position: fixed;
+        width: 20%;
+        height: 100%;
+        left: 0;
+        overflow: auto;
+        display: block;
+        margin-top: -30px !important;
+        padding-top: 40px !important;
+    }
+
+    .main {
+        /*background: silver;*/
+        color: black;
+        width: 80%;
+        float: right;
+    }
+
+        .main p {
+            margin-bottom: 50px;
+        }
+
+    footer {
+        display: none;
+    }
+
+    .ImageAndUserName {
+        display: flex;
+    }
+</style>
+
+
+

@@ -1,0 +1,17 @@
+﻿@using JobSearchFullWebSite.Models
+@model Employer
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card mt-5 py-3 mx-5 px-3">
+    <div class="head d-flex flex-row justify-content-center"><h2>@Model.Name</h2></div>
+    <div>İş sayı: @Model.Jobs.Where(x => !x.IsDeleted).Count()</div>
+    <div>Kateqoriya: @Model.Category.Name</div>
+    <div>İzləyici sayı: @Model.Followers.Count()</div>
+    <div>Şəhər: @Model.City.CityName</div>
+    <div>Əlaqə: @Model.PhoneNumber</div>
+    <div>Email: @Model.Email</div>
+    <div>Yaradıldı: @Model.CreatedAt.ToString("MM.dd.yyyy")</div>
+</div>

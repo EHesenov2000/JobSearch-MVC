@@ -1,0 +1,480 @@
+﻿@using JobSearchFullWebSite.Models
+@using JobSearchFullWebSite.Enums
+@using System.ComponentModel
+@model Job
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Edit";
+}
+@{
+    List<string> Times = new List<string>();
+    var type2 = typeof(JobSalaryForTime);
+    var names2 = Enum.GetNames(type2);
+    foreach (var name2 in names2)
+    {
+        var field2 = type2.GetField(name2);
+        var fds2 = field2.GetCustomAttributes(typeof(DescriptionAttribute), true);
+        foreach (DescriptionAttribute fd2 in fds2)
+        {
+            Times.Add(fd2.Description);
+        }
+    }
+
+    List<string> Types = new List<string>();
+    var type1 = typeof(JobType);
+    var names1 = Enum.GetNames(type1);
+    foreach (var name1 in names1)
+    {
+        var field1 = type1.GetField(name1);
+        var fds1 = field1.GetCustomAttributes(typeof(DescriptionAttribute), true);
+        foreach (DescriptionAttribute fd1 in fds1)
+        {
+            Types.Add(fd1.Description);
+        }
+    }
+    List<string> Genders = new List<string>();
+    var type3 = typeof(Gender);
+    var names3 = Enum.GetNames(type3);
+    foreach (var name3 in names3)
+    {
+        var field3 = type3.GetField(name3);
+        var fds3 = field3.GetCustomAttributes(typeof(DescriptionAttribute), true);
+        foreach (DescriptionAttribute fd3 in fds3)
+        {
+            Genders.Add(fd3.Description);
+        }
+    }
+    List<string> Qualifications = new List<string>();
+    var type4 = typeof(Qualification);
+    var names4 = Enum.GetNames(type4);
+    foreach (var name4 in names4)
+    {
+        var field4 = type4.GetField(name4);
+        var fds4 = field4.GetCustomAttributes(typeof(DescriptionAttribute), true);
+        foreach (DescriptionAttribute fd4 in fds4)
+        {
+            Qualifications.Add(fd4.Description);
+        }
+    }
+
+    List<string> Experiences = new List<string>();
+    var type = typeof(RequiredExperience);
+    var names = Enum.GetNames(type);
+    foreach (var name in names)
+    {
+        var field = type.GetField(name);
+        var fds = field.GetCustomAttributes(typeof(DescriptionAttribute), true);
+        foreach (DescriptionAttribute fd in fds)
+        {
+            Experiences.Add(fd.Description);
+        }
+    }
+
+    List<string> Levels = new List<string>();
+    var type5 = typeof(CareerLevel);
+    var names5 = Enum.GetNames(type5);
+    foreach (var name5 in names5)
+    {
+        var field5 = type5.GetField(name5);
+        var fds5 = field5.GetCustomAttributes(typeof(DescriptionAttribute), true);
+        foreach (DescriptionAttribute fd5 in fds5)
+        {
+            Levels.Add(fd5.Description);
+        }
+    }
+
+}
+
+<div class="cont">
+    <div class="main px-4">
+        <br />
+        <br />
+        <br />
+        <button class="showOn700 btn btn-primary" data-toggle="modal"
+                data-target="#myModal1">
+            <i class="fas fa-align-justify white"></i>&nbsp;&nbsp;&nbsp;<span class="white">Menyu</span>
+        </button>
+
+        <br />
+        <br />
+        <div class="container-fluid">
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-12  mt-2">
+                                @*<input type="file" id="file" asp-for="@Model.File "/>
+                                    <label for="file" asp-for="@Model.File " class=" backColorBlue"><span class="blue">Browse</span> </label>*@
+                                <b>Şəkil</b>
+                                <br />
+                                <input class="form-control col-md-2 blue border-radius" id="file" type="file" asp-for="@Model.File" style="display:contents;">
+                                <label for="file" class="border-radius px-3 py-2 " style="background-color: blue !important;color:white !important;border-radius:20px;"><span class="">Şəkil yüklə</span></label>
+                                <span asp-validation-for="@Model.File" class="text-danger"></span>
+                            </div>
+                            @if (Model != null)
+                            {
+                                <div class="img-box col-md-4" style="position:relative;max-width:200px;width:200px;height:200px;max-height:200px;">
+                                    @if (Model.JobImages.FirstOrDefault(x => x.IsPoster) != null)
+                                    {
+                                        <img class="d-block" src="~/images/jobImage/@Model.JobImages.FirstOrDefault(x => x.IsPoster).Image" style="max-width:180px;width:180px;height:180px;max-height:180px;margin-left:10px;padding-top:20px" />
+                                        <i class="fas fa-times remove-img-box" style="color:red;position:absolute;cursor:pointer;right:4px;top:2px;font-size:17px"></i>
+                                        <input type="hidden" name="FileId" value="@Model.JobImages.FirstOrDefault(x=>x.IsPoster).Id" />
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-8">
+                        <label asp-for="@Model.Name">İşin adı</label>
+                        <input asp-for="@Model.Name" class="form-control backColorBlue" id="İşin adı" placeholder="Name">
+                        <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4 d-flex flex-column ">
+                        <label asp-for="@Model.JobType">Növü</label>
+                        <select class="border-radius border-0 backColorBlue py-2 px-2" asp-for="@Model.JobType" asp-items="new SelectList(Types)">
+                            <option selected disabled>Seç</option>
+                        </select>
+                        <span asp-validation-for="@Model.JobType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.OfferedMaxSalary">Maksimum əməkhaqqı</label>
+                        <input asp-for="@Model.OfferedMaxSalary" class="form-control backColorBlue" id="OfferedMaxSalary" placeholder="Max. əməkhaqqı">
+                        <span asp-validation-for="@Model.OfferedMaxSalary" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.OfferedMinSalary">Minimum əməkhaqqı</label>
+                        <input asp-for="@Model.OfferedMinSalary" class="form-control backColorBlue" id="OfferedMinSalary" placeholder="Min. əməkhaqqı">
+                        <span asp-validation-for="@Model.OfferedMinSalary" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group col-md-3 d-flex flex-column justify-content-center">
+                        <label asp-for="@Model.IsUrgent">Təcilidirmi</label>
+                        <input asp-for="@Model.IsUrgent" type="checkbox">
+                        <span asp-validation-for="@Model.IsUrgent" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3 d-flex flex-column">
+                        <label asp-for="@Model.IsFeatured">Xüsusidirmi</label>
+                        <input asp-for="@Model.IsFeatured" type="checkbox">
+                        <span asp-validation-for="@Model.IsFeatured" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 d-flex flex-column">
+                        <label asp-for="@Model.OfferedSalaryForTime">Əməkhaaqı müddəti</label>
+                        <select class="border-radius border-0 backColorBlue py-2 px-2" asp-for="@Model.OfferedSalaryForTime" asp-items="new SelectList(Times)">
+                            <option selected disabled>Seç</option>
+                        </select>
+                        <span asp-validation-for="@Model.OfferedSalaryForTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4 d-flex flex-column">
+                        <label asp-for="@Model.RequiredGender">Namizəd</label>
+                        <select class="border-radius border-0 backColorBlue py-2 px-2" asp-for="@Model.RequiredGender" asp-items="new SelectList(Genders)">
+                            <option selected disabled>Seç</option>
+                        </select>
+                        <span asp-validation-for="@Model.RequiredGender" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4 d-flex flex-column">
+                        <label asp-for="@Model.RequiredQualificationr">Dərəcə</label>
+                        <select class="border-radius border-0 backColorBlue py-2 px-2" asp-for="@Model.RequiredQualificationr" asp-items="new SelectList(Qualifications)">
+                            <option selected disabled>Seç</option>
+                        </select>
+                        <span asp-validation-for="@Model.RequiredQualificationr" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4 d-flex flex-column">
+                        <label asp-for="@Model.RequiredExperience">Təcrübə</label>
+                        <select class="border-radius border-0 backColorBlue py-2 px-2" asp-for="@Model.RequiredExperience" asp-items="new SelectList(Experiences)">
+                            <option selected disabled>Seç</option>
+                        </select>
+                        <span asp-validation-for="@Model.RequiredExperience" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4 d-flex flex-column ">
+                        <label asp-for="@Model.CareerLevel">Karyera</label>
+                        <select class="border-radius border-0 backColorBlue py-2 px-2" asp-for="@Model.CareerLevel" asp-items="new SelectList(Levels)">
+                            <option selected disabled>Seç</option>
+                        </select>
+                        <span asp-validation-for="@Model.CareerLevel" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4 d-flex flex-column">
+                        <label asp-for="@Model.ExpirationDate">Son tarix</label>
+                        <input asp-for="@Model.ExpirationDate" class="form-control backColorBlue" id="ExpirationDate" placeholder="ExpirationDate">
+                        <span asp-validation-for="@Model.ExpirationDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group col-md-4 d-flex flex-column">
+                        <label asp-for="@Model.CityId">Şəhər</label>
+                        <select class="border-radius border-0 backColorBlue py-2 px-2" asp-for="@Model.CityId" asp-items="@(new SelectList(ViewBag.Cities, "Id", "CityName"))">
+                            <option class="" selected disabled value="">Şəhər seç</option>
+                        </select>
+                        <span asp-validation-for="@Model.CityId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4 d-flex flex-column">
+                        <label asp-for="@Model.JobCategoryId">Kateqoriya</label>
+                        <select class="border-radius border-0 backColorBlue py-2 px-2" asp-for="@Model.JobCategoryId" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))">
+                            <option class="" selected disabled value="">Kateqoriya seç</option>
+                        </select>
+                        <span asp-validation-for="@Model.JobCategoryId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4 d-flex flex-column">
+                        <label asp-for="@Model.RequiredLanguageIds">Tələb edilər dillər</label>
+                        <select class="form-control backColorBlue" asp-for="@Model.RequiredLanguageIds">
+                            @if (Model != null)
+                            {
+                                @foreach (var item in ViewBag.Languages)
+                                {
+                                    if (Model.RequiredLanguages.Any(x => x.Language == item.Name))
+                                    {
+                                        <option selected value="@item.Id">@item.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                }
+                            }
+                            @*else
+                                {
+                                    @if (ViewBag.Languages != null)
+                                    {
+                                        @foreach (var item in ViewBag.Languages)
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                    }
+                                }*@
+
+                        </select>
+                        <span asp-validation-for="@Model.RequiredLanguageIds" class="text-danger"></span>
+                    </div>
+                </div>
+                @*<input type="hidden" asp-for="@Model.EmployerId" value="@Model.EmployerId"/>*@
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label asp-for="@Model.JobContentTextEditor">Ətraflı məlumat</label>
+                        <textarea asp-for="@Model.JobContentTextEditor" class="form-control" id="JobContentTextEditor" placeholder="JobContentTextEditor"></textarea>
+                        <span asp-validation-for="@Model.JobContentTextEditor" class="text-danger"></span>
+                    </div>
+
+                    <br />
+                    <div class="col-12">
+                        <b>Əlaqəli şəkillər</b>
+                        @*<br />
+                            @{ int m = 0;
+                                if (Model.JobImages != null)
+                                {
+                                    @foreach (var item in Model.JobImages.Where(x => !x.IsPoster))
+                                    {
+                                        <div class="col-lg-3 col-md-6 col-12 PositionRelativeForIcon">
+                                            <input type="hidden" name="ImageIds[]" value="@item.Id" />
+                                            <input type="hidden" name="JobImages[@m].Image" value="@item.Image" />
+                                            <img src="~/images/jobImage/@item.Image" alt="" class="border-radius" style="width: 200px;height: 200px;">
+                                            <div class="PortfolioXIcon backColorBlue  border-radius p-2 d-flex align-items-center justify-content-center RemoveImageItem" style="width: 20px;height: 20px;"><i class="fas fa-times blue"></i></div>
+                                        </div>
+                                        m++;
+                                    }}
+                            }*@
+                        <br />
+                        <div class="">
+                            <input class="form-control  col-md-4" style="display:block !important; width:auto !important;height:auto !important;" asp-for="@Model.Images">
+                            <span asp-validation-for="@Model.Images" class="text-danger"></span>
+                        </div>
+                        <p></p>
+                        <div class="row ">
+                            @{ int m = 0;
+                                @foreach (var item in Model.JobImages.Where(x => x.IsPoster == false))
+                                {
+                                    <div class="img-box col-md-4" style="position:relative;max-width:200px;width:200px;height:200px;max-height:200px;">
+                                        <img class="d-block" src="~/images/jobImage/@item.Image" style="max-width:180px;width:180px;height:180px;max-height:180px;margin-left:10px;padding-top:20px" />
+                                        <i class="fas fa-times remove-img-box" style="color:red;position:absolute;cursor:pointer;right:4px;top:2px;font-size:17px"></i>
+                                        <input type="hidden" name="ImageIds[]" value="@item.Id" />
+                                        <input type="hidden" name="JobImages[@m].Image" value="@item.Image" />
+                                    </div>
+                                }}
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                <br />
+                <div class="form-row">
+                    <button type="submit" class="btn btn-primary">Yadda saxla</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    <div class="sidebar ps-3">
+        <br />
+        <br />
+        <div class="">
+            <div class="ImageAndUserName flex-row">
+                <div class="UserImage d-flex align-items-center">
+                    @if (Model.Employer.EmployerImages.FirstOrDefault(x => x.IsPoster) != null && Model.Employer.EmployerImages.FirstOrDefault(x => x.IsPoster).Image != null)
+                    {
+                        <img src="~/images/employerImage/@Model.Employer.EmployerImages.FirstOrDefault(x=>x.IsPoster).Image"
+                             alt=""
+                             style="width: 60px; height: 60px; border-radius: 50%" />
+                    }
+                    else
+                    {
+                        <img src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g"
+                             alt=""
+                             style="width: 60px; height: 60px; border-radius: 50%" />
+                    }
+
+                </div>
+                <div class="
+                    d-flex
+                    flex-column
+                    ms-3
+                    align-items-center
+                    justify-content-center
+                  ">
+                    @if (Model.Employer != null && Model.Employer.Name != null)
+                    {
+                        <div class="UserName black"><b>@Model.Employer.Name</b></div>
+                    }
+                    else
+                    {
+                        <div class="UserName black"><b>@Model.Employer.AppUser.UserName</b></div>
+                    }
+                    @if (Model.Employer != null && Model.Employer.City != null)
+                    {
+                        <div class="UserCity black">@Model.Employer.City.CityName</div>
+                    }
+                    <div class="UserProfileButton">
+                        <a class="text-decoration-none " asp-action="detail" asp-controller="employer" asp-route-id="@Model.Employer.Id">
+                            <button class="btn btn-primary" style="font-size: 10px">
+                                Profilə bax
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="d-flex flex-column">
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="employerDashboard" asp-controller="employer" asp-route-id="@Model.Employer.Id">
+                    <div class="Icon"><i class="far fa-file-alt"></i></div>
+                    <div class="SectionName ms-2">Statistika</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="EmployerProileEdit" asp-controller="employer" asp-route-id="@Model.Employer.Id">
+                    <div class="Icon"><i class="far fa-user-circle"></i></div>
+                    <div class="SectionName ms-2">Profil</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="GetJobs" asp-controller="employer" asp-route-id="@Model.Employer.Id">
+                    <div class="Icon"><i class="fas fa-file-signature"></i></div>
+                    <div class="SectionName ms-2">İşləriniz</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="GetFollowers" asp-controller="employer" asp-route-id="@Model.Employer.Id">
+                    <div class="Icon"><i class="fas fa-volume-up"></i></div>
+                    <div class="SectionName ms-2">İzləyicilər</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="SubmitJob" asp-controller="employer" asp-route-newId="@Model.Employer.Id">
+                    <div class="Icon"><i class="far fa-bookmark"></i></div>
+                    <div class="SectionName ms-2">İş yarat</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="GetContacts" asp-controller="employer">
+                    <div class="Icon"><i class="far fa-user"></i></div>
+                    <div class="SectionName ms-2">Əlaqələr</div>
+                </a>
+                @*<a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3">
+                        <div class="Icon"><i class="fas fa-volume-up"></i></div>
+                        <div class="SectionName ms-2">Alert Jobs</div>
+                    </a>
+                    <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3">
+                        <div class="Icon"><i class="fab fa-weixin"></i></div>
+                        <div class="SectionName ms-2">Messages</div>
+                    </a>*@
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="EmployerEdit" asp-controller="account">
+                    <div class="Icon"><i class="fas fa-lock"></i></div>
+                    <div class="SectionName ms-2">Şifrəni yenilə</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none delete-profile-btn" asp-action="RemoveEmployer" asp-controller="account" asp-route-id="@Model.Employer.Id">
+                    <div class="Icon"><i class="far fa-trash-alt"></i></div>
+                    <div class="SectionName ms-2">Hesabı sil</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius me-2 py-3 text-decoration-none" asp-action="logout" asp-controller="account">
+                    <div class="Icon"><i class="fas fa-power-off"></i></div>
+                    <div class="SectionName ms-2">Çıxış</div>
+                </a>
+            </div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<style>
+    body {
+        font-size: 15px !important;
+        /*background-color: #f4f7fc;*/
+    }
+
+    .UserProfileItem {
+        padding-bottom: 5px;
+        padding-top: 5px;
+    }
+
+        .UserProfileItem:hover {
+            background-color: #f4f7fc;
+        }
+
+    .sidebar {
+        background: white;
+        color: white;
+        position: fixed;
+        width: 20%;
+        height: 100%;
+        left: 0;
+        overflow: auto;
+        display: block;
+        margin-top: -30px !important;
+        padding-top: 40px !important;
+    }
+
+    .main {
+        /*background: silver;*/
+        color: black;
+        width: 80%;
+        float: right;
+    }
+
+        .main p {
+            margin-bottom: 50px;
+        }
+
+    footer {
+        display: none;
+    }
+
+    .ImageAndUserName {
+        display: flex;
+    }
+</style>
+<script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+<script>
+    // Replace the <textarea id="editor1"> with a CKEditor 4
+    // instance, using default configuration.
+    CKEDITOR.replace('JobContentTextEditor');
+</script>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            $(document).on("click", ".remove-img-box", function (e) {
+                //$(this).parents(".img-box").attr("style", "background-color:unset");
+                $(this).parents(".img-box").empty();
+                $(this).parents(".img-box").css("display", "none !important");
+            })
+        })
+    </script>
+}
+

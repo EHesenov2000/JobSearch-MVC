@@ -1,0 +1,1001 @@
+﻿@using JobSearchFullWebSite.Services
+@inject LayoutViewModelService service
+@using JobSearchFullWebSite.Models
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JobSearch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap" rel="stylesheet">
+
+    <!-- -TextEditor- -->
+    @*<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">*@
+    <!-- Slick Slider CSS only -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css"
+          integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"
+          integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+    <!-- FontAwesome CSS only -->
+    @*<link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer" />*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" integrity="sha512-P9vJUXK+LyvAzj8otTOKzdfF1F3UYVl13+F8Fof8/2QNb8Twd6Vb+VD52I7+87tex9UXxnzPgWA3rH96RExA7A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css" integrity="sha512-tk4nGrLxft4l30r9ETuejLU0a3d7LwMzj0eXjzc16JQj+5U1IeVoCuGLObRDc3+eQMUcEQY1RIDPGvuA7SNQ2w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Bootstrap CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous" />
+    <!-- ---------------BOOTSTRAP ICON CDN-------------------- -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.1/font/bootstrap-icons.min.css"
+          integrity="sha512-YBSrHBAMjFhWHodf0RF58XB/x9lmuwBtyJv1LWDHQa1nOaWNXfG3Etc/lEXfW+qBx8ne79JnzccDs59je/ccVA=="
+          crossorigin="anonymous" />
+    <link rel="stylesheet" href="~/Navbar2/bootstrap3min.css">
+    <link rel="stylesheet" href="~/Navbar2/index.css">
+    <!-- ---ForSidebar--- -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css" />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+    <link rel="stylesheet" href="~/css/jobSearch.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.16.6/sweetalert2.min.css" integrity="sha512-/D4S05MnQx/q7V0+15CCVZIeJcV+Z+ejL1ZgkAcXE1KZxTE4cYDvu+Fz+cQO9GopKrDzMNNgGK+dbuqza54jgw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+    <div class="loader-wrapper">
+        <span class="loader "><span class="loader-inner fon tSize14 "></span></span>
+    </div>
+    <div class="wrapper">
+        <header style="z-index: 1;">
+            <div class="mx-3">
+                <div id="logo">Job Search</div>
+                <nav class="d-flex flex-row NormalMenu">
+                    <a asp-action="index" asp-controller="home">Əsas</a>
+                    <a asp-action="index" asp-controller="job">Vakansiyalar</a>
+                    <a asp-action="index" asp-controller="employer">Şirkətlər</a>
+                    <a asp-action="index" asp-controller="candidate">İşçilər</a>
+                    <a asp-action="index" asp-controller="blog">Bloq</a>
+                    <a asp-action="index" asp-controller="about">Haqqımızda</a>
+                    <a asp-action="Faq" asp-controller="about">Suallar</a>
+                    <a asp-action="Terms" asp-controller="about">Qaydalar</a>
+                    <a asp-action="index" asp-controller="Contact">Əlaqə</a>
+
+                    @if (User.Identity.Name != null)
+                    {
+                        Candidate candidate = service.GetLoginnedCandidate(User.Identity.Name.ToString());
+                        Employer employer = service.GetLoginnedEmployer(User.Identity.Name.ToString());
+                        Admin admin = service.GetLoginnedAdmin(User.Identity.Name.ToString());
+                        if (candidate != null)
+                        {
+                            if (candidate.FullName != null)
+                            {
+                                if (candidate.CandidateImages.FirstOrDefault(x => x.IsPoster) != null && candidate.CandidateImages.FirstOrDefault(x => x.IsPoster).Image != null)
+                                {
+                                    <ul class="dropdown  " style="display: inline-flex !important;align-items: center;">
+                                        <li type="none" href="#" class="dropdown-toggle d-flex flex-row justify-content-center align-items-center" data-toggle="dropdown" style="font-size:15px">
+                                            <div class="d-flex flex-row align-items-center justify-content-center">
+                                                <img src="~/images/candidateImage/@candidate.CandidateImages.FirstOrDefault(x=>x.IsPoster).Image" style="width:40px;height:40px;border-radius:50%;" alt="Alternate Text" />
+                                            </div>
+                                            <span href="#" style="margin-left: 10px; text-decoration: none;" class="d-flex flex-row ">@candidate.FullName</span>
+                                        </li>
+                                        <ul class="dropdown-menu">
+                                            <li class=""><a asp-action="CandidateDashboard" asp-controller="candidate" asp-route-id="@candidate.Id">Statistika</a></li>
+                                            <li><a asp-action="CandidateProfileEdit" asp-controller="candidate" asp-route-id="@candidate.Id">Profil</a></li>
+                                            <li><a asp-action="CandidateResumeEdit" asp-controller="candidate" asp-route-id="@candidate.Id">CV-im</a></li>
+                                            <li><a asp-action="CandidateApplieds" asp-controller="candidate" asp-route-id="@candidate.Id">Müraciətlərim</a></li>
+                                            <li><a asp-action="getcontacts" asp-controller="candidate">Əlaqələr</a></li>
+                                            <li><a asp-action="CandidateShortList" asp-controller="candidate" asp-route-id="@candidate.Id">Arzu siyahısı</a></li>
+                                            <li><a asp-action="CandidateFollowings" asp-controller="candidate" asp-route-id="@candidate.Id">İzlədiklərim</a></li>
+                                            <li><a asp-action="CandidateEdit" asp-controller="account">Şifrəni dəyiş</a></li>
+                                            <li class="divider"></li>
+                                            <li><a asp-action="logout" asp-controller="account">Çıxış</a></li>
+                                            <li class="divider"></li>
+                                            @*<li><a asp-action="index" asp-controller="home">One more separated link</a></li>*@
+                                        </ul>
+                                    </ul>
+
+                                }
+                                else
+                                {
+                                    <ul class="dropdown  " style="display: inline-flex !important;align-items: center;">
+                                        <li type="none" href="#" class="dropdown-toggle d-flex flex-row justify-content-center align-items-center" data-toggle="dropdown" style="font-size:15px">
+                                            <div class="d-flex flex-row align-items-center justify-content-center">
+                                                <img src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g" style="width:40px;height:40px;border-radius:50%;" alt="Alternate Text" />
+                                            </div>
+                                            <span href="#" style="margin-left: 10px; text-decoration: none;" class="d-flex flex-row ">@candidate.FullName</span>
+                                        </li>
+                                        <ul class="dropdown-menu">
+                                            <li class=""><a asp-action="CandidateDashboard" asp-controller="candidate" asp-route-id="@candidate.Id">Statistika</a></li>
+                                            <li><a asp-action="CandidateProfileEdit" asp-controller="candidate" asp-route-id="@candidate.Id">Profil</a></li>
+                                            <li><a asp-action="CandidateResumeEdit" asp-controller="candidate" asp-route-id="@candidate.Id">CV-im</a></li>
+                                            <li><a asp-action="CandidateApplieds" asp-controller="candidate" asp-route-id="@candidate.Id">Müraciətlərim</a></li>
+                                            <li><a asp-action="CandidateShortList" asp-controller="candidate" asp-route-id="@candidate.Id">Arzu siyahısı</a></li>
+                                            <li><a asp-action="CandidateFollowings" asp-controller="candidate" asp-route-id="@candidate.Id">İzlədiklərim</a></li>
+                                            <li><a asp-action="CandidateEdit" asp-controller="account">Şifrəni dəyiş</a></li>
+                                            <li class="divider"></li>
+                                            <li><a asp-action="logout" asp-controller="account">Çıxış</a></li>
+                                            <li class="divider"></li>
+                                            @*<li><a asp-action="index" asp-controller="home">One more separated link</a></li>*@
+                                        </ul>
+                                    </ul>
+                                }
+
+                            }
+                            else
+                            {
+                                <ul class="dropdown  " style="display: inline-flex !important;align-items: center;">
+                                    <li type="none" href="#" class="dropdown-toggle d-flex flex-row justify-content-center align-items-center" data-toggle="dropdown" style="font-size:15px">
+                                        <div class="d-flex flex-row align-items-center justify-content-center">
+                                            <img src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g" style="width:40px;height:40px;border-radius:50%;" alt="Alternate Text" />
+                                        </div>
+                                        <span href="#" style="margin-left: 10px; text-decoration: none;" class="d-flex flex-row ">@User.Identity.Name</span>
+                                    </li>
+                                    <ul class="dropdown-menu">
+                                        <li class=""><a asp-action="CandidateDashboard" asp-controller="candidate" asp-route-id="@candidate.Id">Statistika</a></li>
+                                        <li><a asp-action="CandidateProfileEdit" asp-controller="candidate" asp-route-id="@candidate.Id">Profil</a></li>
+                                        <li><a asp-action="CandidateResumeEdit" asp-controller="candidate" asp-route-id="@candidate.Id">CV-im</a></li>
+                                        <li><a asp-action="CandidateApplieds" asp-controller="candidate" asp-route-id="@candidate.Id">Müraciətlərim</a></li>
+                                        <li><a asp-action="CandidateShortList" asp-controller="candidate" asp-route-id="@candidate.Id">Arzu siyahısı</a></li>
+                                        <li><a asp-action="CandidateFollowings" asp-controller="candidate" asp-route-id="@candidate.Id">İzlədiklərim</a></li>
+                                        <li><a asp-action="CandidateEdit" asp-controller="account">Şifrəni dəyiş</a></li>
+                                        <li class="divider"></li>
+                                        <li><a asp-action="logout" asp-controller="account">Çıxış</a></li>
+                                        <li class="divider"></li>
+                                        @*<li><a asp-action="index" asp-controller="home">One more separated link</a></li>*@
+                                    </ul>
+                                </ul> }
+                        }
+
+                        if (employer != null)
+                        {
+                            if (employer.Name != null)
+                            {
+                                if (employer.EmployerImages.FirstOrDefault(x => x.IsPoster) != null && employer.EmployerImages.FirstOrDefault(x => x.IsPoster).Image != null)
+                                {
+                                    <ul class="dropdown  " style="display: inline-flex !important;align-items: center;">
+                                        <li type="none" href="#" class="dropdown-toggle d-flex flex-row justify-content-center align-items-center" data-toggle="dropdown" style="font-size:15px">
+                                            <div class="d-flex flex-row align-items-center justify-content-center">
+                                                <img src="~/images/employerImage/@employer.EmployerImages.FirstOrDefault(x=>x.IsPoster).Image" style="width:40px;height:40px;border-radius:50%;" alt="Alternate Text" />
+                                            </div>
+                                            <span href="#" style="margin-left: 10px; text-decoration: none;" class="d-flex flex-row ">@employer.Name</span>
+                                        </li>
+                                        <ul class="dropdown-menu">
+                                            <li class=""><a asp-action="employerDashboard" asp-controller="employer" asp-route-id="@employer.Id">Statistika</a></li>
+                                            <li><a asp-action="EmployerProileEdit" asp-controller="employer" asp-route-id="@employer.Id">Profil</a></li>
+                                            <li><a asp-action="GetJobs" asp-controller="employer" asp-route-id="@employer.Id">İşləriniz</a></li>
+                                            <li><a asp-action="employerapplies" asp-controller="employer">Müraciətləriniz</a></li>
+                                            @*<li class="divider"></li>*@
+                                            <li><a asp-action="GetFollowers" asp-controller="employer" asp-route-id="@employer.Id">İzləyicilər</a></li>
+                                            <li><a asp-action="SubmitJob" asp-controller="employer" asp-route-newId="@employer.Id">İş yarat</a></li>
+                                            <li><a asp-action="GetContacts" asp-controller="employer">Əlaqələr</a></li>
+                                            <li><a asp-action="EmployerEdit" asp-controller="account">Şifrəni dəyiş</a></li>
+                                            <li class="divider"></li>
+                                            <li><a asp-action="logout" asp-controller="account">Çıxış</a></li>
+                                            <li class="divider"></li>
+                                            @*<li><a asp-action="index" asp-controller="home">One more separated link</a></li>*@
+                                        </ul>
+                                    </ul>
+
+                                }
+                                else
+                                {
+                                    <ul class="dropdown  " style="display: inline-flex !important;align-items: center;">
+                                        <li type="none" href="#" class="dropdown-toggle d-flex flex-row justify-content-center align-items-center" data-toggle="dropdown" style="font-size:15px">
+                                            <div class="d-flex flex-row align-items-center justify-content-center">
+                                                <img src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g" style="width:40px;height:40px;border-radius:50%;" alt="Alternate Text" />
+                                            </div>
+                                            <span href="#" style="margin-left: 10px; text-decoration: none;" class="d-flex flex-row ">@employer.Name</span>
+                                        </li>
+                                        <ul class="dropdown-menu">
+                                            <li class=""><a asp-action="employerDashboard" asp-controller="employer" asp-route-id="@employer.Id">Statistika</a></li>
+                                            <li><a asp-action="EmployerProileEdit" asp-controller="employer" asp-route-id="@employer.Id">Profil</a></li>
+                                            <li><a asp-action="GetJobs" asp-controller="employer" asp-route-id="@employer.Id">İşləriniz</a></li>
+                                            <li><a asp-action="employerapplies" asp-controller="employer">Müraciətləriniz</a></li>
+                                            @*<li class="divider"></li>*@
+                                            <li><a asp-action="GetFollowers" asp-controller="employer" asp-route-id="@employer.Id">İzləyicilər</a></li>
+                                            <li><a asp-action="SubmitJob" asp-controller="employer" asp-route-newId="@employer.Id">İş yarat</a></li>
+                                            <li><a asp-action="GetContacts" asp-controller="employer">Əlaqələr</a></li>
+                                            <li><a asp-action="EmployerEdit" asp-controller="account">Şifrəni dəyiş</a></li>
+                                            <li class="divider"></li>
+                                            <li><a asp-action="logout" asp-controller="account">Çıxış</a></li>
+                                            <li class="divider"></li>
+                                            @*<li><a asp-action="index" asp-controller="home">One more separated link</a></li>*@
+                                        </ul>
+                                    </ul>
+                                }
+                            }
+                            else
+                            {
+                                <ul class="dropdown  " style="display: inline-flex !important;align-items: center;">
+                                    <li type="none" href="#" class="dropdown-toggle d-flex flex-row justify-content-center align-items-center" data-toggle="dropdown" style="font-size:15px">
+                                        <div class="d-flex flex-row align-items-center justify-content-center">
+                                            <img src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g" style="width:40px;height:40px;border-radius:50%;" alt="Alternate Text" />
+                                        </div>
+                                        <span href="#" style="margin-left: 10px; text-decoration: none;" class="d-flex flex-row ">@User.Identity.Name</span>
+                                    </li>
+                                    <ul class="dropdown-menu">
+                                        <li class=""><a asp-action="employerDashboard" asp-controller="employer" asp-route-id="@employer.Id">Statistika</a></li>
+                                        <li><a asp-action="EmployerProileEdit" asp-controller="employer" asp-route-id="@employer.Id">Profil</a></li>
+                                        <li><a asp-action="GetJobs" asp-controller="employer" asp-route-id="@employer.Id">İşləriniz</a></li>
+                                        <li><a asp-action="employerapplies" asp-controller="employer">Müraciətləriniz</a></li>
+                                        @*<li class="divider"></li>*@
+                                        <li><a asp-action="GetFollowers" asp-controller="employer" asp-route-id="@employer.Id">İzləyicilər</a></li>
+                                        <li><a asp-action="SubmitJob" asp-controller="employer" asp-route-newId="@employer.Id">İş yarat</a></li>
+                                        <li><a asp-action="GetContacts" asp-controller="employer">Əlaqələr</a></li>
+                                        <li><a asp-action="EmployerEdit" asp-controller="account">Şifrəni dəyiş</a></li>
+                                        <li class="divider"></li>
+                                        <li><a asp-action="logout" asp-controller="account">Çıxış</a></li>
+                                        <li class="divider"></li>
+                                        @*<li><a asp-action="index" asp-controller="home">One more separated link</a></li>*@
+                                    </ul>
+                                </ul> }
+                        }
+                        else if (admin != null)
+                        {
+                            service.Logout();
+                            <a asp-action="login" asp-controller="account" style="margin-left: 10px; text-decoration: none;" class="d-flex flex-row align-items-center"><button class="ButtonJobOnHover border-radius px-2 py-2 " style="line-height: normal;"><span>Giriş / Qeydiyyat</span></button></a>
+                            @*<a style="margin-left: 7px; text-decoration: none;" class="d-flex flex-row align-items-center"><button class="ButtonJob border-radius px-2 py-2 " style="line-height: normal;"><span>Add Job</span></button></a>*@
+                        }
+
+                    }
+                    else
+                    {
+                        <a asp-action="login" asp-controller="account" style="margin-left: 10px; text-decoration: none;" class="d-flex flex-row align-items-center"><button class="ButtonJobOnHover border-radius px-2 py-2 " style="line-height: normal;"><span>Giriş / Qeydiyyat</span></button></a>
+                        @*<a style="margin-left: 7px; text-decoration: none;" class="d-flex flex-row align-items-center"><button class="ButtonJob border-radius px-2 py-2 " style="line-height: normal;"><span>Add Job</span></button></a>*@
+                    }
+
+
+                </nav>
+                <nav class="d-flex flex-row ResponsiveMenu">
+                    @if (User.Identity.Name != null)
+                    {
+                        Candidate candidate = service.GetLoginnedCandidate(User.Identity.Name.ToString());
+                        Employer employer = service.GetLoginnedEmployer(User.Identity.Name.ToString());
+                        if (candidate != null)
+                        {
+                            <a asp-action="CandidateDashboard" asp-controller="candidate" asp-route-id="@candidate.Id"><i class="far fa-user UserOnScroll"></i></a>
+
+                        }
+                        if (employer != null)
+                        {
+                            <a asp-action="EmployerDashboard" asp-controller="employer" asp-route-id="@employer.Id"><i class="far fa-user UserOnScroll"></i></a>
+                        }
+                    }
+                    <a class="">
+                        <i class="fas fa-bars " data-toggle="modal"
+                           data-target="#myModal2"> </i>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <a id="scrollToTop" class="hide" href="#" style="z-index: 1;">
+            <i class="fa fa-arrow-circle-up ScrollDownIcon" style="background-color:red;border-radius:50%;"></i>
+        </a>
+    </div>
+    <style>
+        .ScrollDownIcon:hover {
+            background-color: white !important;
+        }
+    </style>
+
+    @RenderBody()
+
+    <div class="container demo">
+        <!-- Modal -->
+        <div class="modal right "
+             id="myModal2"
+             tabindex="-1"
+             role="dialog"
+             aria-labelledby="myModalLabel2">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header align-items-center flex-row-reverse">
+                        <button style="background-color:skyblue" type="button"
+                                class="close "
+                                data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel2">Job Search</h4>
+                    </div>
+
+                    <div class="modal-body backColorBlue">
+                        @if (User.Identity.Name != null)
+                        {
+                            Candidate candidate = service.GetLoginnedCandidate(User.Identity.Name.ToString());
+                            Employer employer = service.GetLoginnedEmployer(User.Identity.Name.ToString());
+                            if (candidate != null)
+                            {
+                                if (candidate.FullName != null && candidate.CandidateImages.FirstOrDefault(x => x.IsPoster) != null && candidate.CandidateImages.FirstOrDefault(x => x.IsPoster).Image != null)
+                                {
+                                    <a asp-action="candidateDashboard" asp-controller="candidate" asp-route-id="@candidate.Id" class="text-decoration-none">
+                                        <div class="card d-flex flex-row align-items-center onhoverBlack p-2">
+                                            <div class="userImage"><img style="width:40px;height:40px;border-radius:50%;" src="~/images/candidateImage/@candidate.CandidateImages.FirstOrDefault(x=>x.IsPoster).Image" alt="Yuklenmedi" /></div>
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            <div class="userName"><b>@candidate.FullName</b></div>
+                                        </div>
+                                    </a>
+                                }
+                                else if (candidate.FullName != null && (candidate.CandidateImages.FirstOrDefault(x => x.IsPoster) == null || candidate.CandidateImages.FirstOrDefault(x => x.IsPoster).Image == null))
+                                {
+                                    <a asp-action="candidateDashboard" asp-controller="candidate" asp-route-id="@candidate.Id" class="text-decoration-none">
+                                        <div class="card d-flex flex-row align-items-center onhoverBlack p-2">
+                                            <div class="userImage"><img style="width:40px;height:40px;border-radius:50%;" src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g" alt="Yuklenmedi" /></div>
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            <div class="userName"><b>@candidate.FullName</b></div>
+                                        </div>
+                                    </a>
+                                }
+                                else if (candidate.FullName == null && (candidate.CandidateImages.FirstOrDefault(x => x.IsPoster) == null || candidate.CandidateImages.FirstOrDefault(x => x.IsPoster).Image == null))
+                                {
+                                    <a asp-action="candidateDashboard" asp-controller="candidate" asp-route-id="@candidate.Id" class="text-decoration-none">
+                                        <div class="card d-flex flex-row align-items-center onhoverBlack p-2">
+                                            <div class="userImage"><img style="width:40px;height:40px;border-radius:50%;" src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g" alt="Yuklenmedi" /></div>
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            <div class="userName"><b>@User.Identity.Name</b></div>
+                                        </div>
+                                    </a>
+                                }
+                            }
+                            else if (employer != null)
+                            {
+                                if (employer.Name != null && employer.EmployerImages.FirstOrDefault(x => x.IsPoster) != null && employer.EmployerImages.FirstOrDefault(x => x.IsPoster).Image != null)
+                                {
+                                    <a asp-action="EmployerDashboard" asp-controller="employer" asp-route-id="@employer.Id" class="text-decoration-none">
+                                        <div class="card d-flex flex-row align-items-center onhoverBlack p-2">
+                                            <div class="userImage"><img style="width:40px;height:40px;border-radius:50%;" src="~/images/employerImage/@employer.EmployerImages.FirstOrDefault(x=>x.IsPoster).Image" alt="Yuklenmedi" /></div>
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            <div class="userName"><b>@employer.Name</b></div>
+                                        </div>
+                                    </a>
+                                }
+                                else if (employer.Name != null && (employer.EmployerImages.FirstOrDefault(x => x.IsPoster) == null || employer.EmployerImages.FirstOrDefault(x => x.IsPoster).Image == null))
+                                {
+                                    <a asp-action="EmployerDashboard" asp-controller="employer" asp-route-id="@employer.Id" class="text-decoration-none">
+                                        <div class="card d-flex flex-row align-items-center onhoverBlack p-2">
+                                            <div class="userImage"><img style="width:40px;height:40px;border-radius:50%;" src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g" alt="Yuklenmedi" /></div>
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            <div class="userName"><b>@employer.Name</b></div>
+                                        </div>
+                                    </a>
+                                }
+                                else if (employer.Name == null && (employer.EmployerImages.FirstOrDefault(x => x.IsPoster) == null || employer.EmployerImages.FirstOrDefault(x => x.IsPoster).Image == null))
+                                {
+                                    <a asp-action="EmployerDashboard" asp-controller="employer" asp-route-id="@employer.Id" class="text-decoration-none">
+                                        <div class="card d-flex flex-row align-items-center onhoverBlack p-2">
+                                            <div class="userImage"><img style="width:40px;height:40px;border-radius:50%;" src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g" alt="Yuklenmedi" /></div>
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            <div class="userName"><b>@User.Identity.Name</b></div>
+                                        </div>
+                                    </a>
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            <a asp-action="login" asp-controller="account" class="text-decoration-none">
+                                <button class="border-radius border-0 py-2 px-2 backBlueOnHover">Giriş / Qeydiyyat</button>
+                            </a>
+                        }
+                        <hr />
+                        <div class="d-flex flex-column ">
+                            <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="index" asp-controller="home"><div class="  ">Əsas</div></a>
+                            <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="index" asp-controller="job"><div class="  w-100 h-100">Vakansiyalar</div></a>
+                            <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="index" asp-controller="employer"><div class=" w-100 h-100">Şirkətlər</div></a>
+                            <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="index" asp-controller="candidate"><div class="  w-100 h-100">İşçilər</div></a>
+                            <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="index" asp-controller="blog"><div class="  w-100 h-100">Bloq</div></a>
+                            <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="index" asp-controller="about"><div class="  w-100 h-100">Haqqımızda</div></a>
+                            <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="faq" asp-controller="about"><div class="  w-100 h-100">Suallar</div></a>
+                            <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="terms" asp-controller="about"><div class="  w-100 h-100">Qaydalar</div></a>
+                            <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="index" asp-controller="contact"><div class="  w-100 h-100">Əlaqə</div></a>
+                            @if (User.Identity.Name != null)
+                            {
+                                <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="logout" asp-controller="account"><div class="  w-100 h-100">Çıxış</div></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!-- modal-content -->
+            </div>
+            <!-- modal-dialog -->
+        </div>
+        <!-- modal -->
+        <div class="modal right "
+             id="myModal1"
+             tabindex="-1"
+             role="dialog"
+             aria-labelledby="myModalLabel2">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header align-items-center flex-row-reverse">
+                        <button style="background-color:skyblue" type="button"
+                                class="close "
+                                data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel2">Job Search</h4>
+                    </div>
+
+                    <div class="modal-body backColorBlue">
+                        @if (User.Identity.Name != null)
+                        {
+                            Candidate candidate = service.GetLoginnedCandidate(User.Identity.Name.ToString());
+                            Employer employer = service.GetLoginnedEmployer(User.Identity.Name.ToString());
+                            if (candidate != null)
+                            {
+                                if (candidate.FullName != null && candidate.CandidateImages.FirstOrDefault(x => x.IsPoster) != null && candidate.CandidateImages.FirstOrDefault(x => x.IsPoster).Image != null)
+                                {
+                                    <a asp-action="detail" asp-controller="candidate" asp-route-id="@candidate.Id" class="text-decoration-none">
+                                        <div class="card d-flex flex-row align-items-center onhoverBlack p-2">
+                                            <div class="userImage"><img style="width:40px;height:40px;border-radius:50%;" src="~/images/candidateImage/@candidate.CandidateImages.FirstOrDefault(x=>x.IsPoster).Image" alt="Yuklenmedi" /></div>
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            <div class="userName"><b>@candidate.FullName</b></div>
+                                        </div>
+                                    </a>
+                                }
+                                else if (candidate.FullName != null && (candidate.CandidateImages.FirstOrDefault(x => x.IsPoster) == null || candidate.CandidateImages.FirstOrDefault(x => x.IsPoster).Image == null))
+                                {
+                                    <a asp-action="detail" asp-controller="candidate" asp-route-id="@candidate.Id" class="text-decoration-none">
+                                        <div class="card d-flex flex-row align-items-center onhoverBlack p-2">
+                                            <div class="userImage"><img style="width:40px;height:40px;border-radius:50%;" src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g" alt="Yuklenmedi" /></div>
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            <div class="userName"><b>@candidate.FullName</b></div>
+                                        </div>
+                                    </a>
+                                }
+                                else if (candidate.FullName == null && (candidate.CandidateImages.FirstOrDefault(x => x.IsPoster) == null || candidate.CandidateImages.FirstOrDefault(x => x.IsPoster).Image == null))
+                                {
+                                    <a asp-action="detail" asp-controller="candidate" asp-route-id="@candidate.Id" class="text-decoration-none">
+                                        <div class="card d-flex flex-row align-items-center onhoverBlack p-2">
+                                            <div class="userImage"><img style="width:40px;height:40px;border-radius:50%;" src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g" alt="Yuklenmedi" /></div>
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            <div class="userName"><b>@User.Identity.Name</b></div>
+                                        </div>
+                                    </a>
+                                }
+                            }
+                            else if (employer != null)
+                            {
+                                if (employer.Name != null && employer.EmployerImages.FirstOrDefault(x => x.IsPoster) != null && employer.EmployerImages.FirstOrDefault(x => x.IsPoster).Image != null)
+                                {
+                                    <a asp-action="detail" asp-controller="employer" asp-route-id="@employer.Id" class="text-decoration-none">
+                                        <div class="card d-flex flex-row align-items-center onhoverBlack p-2">
+                                            <div class="userImage"><img style="width:40px;height:40px;border-radius:50%;" src="~/images/candidateImage/@employer.EmployerImages.FirstOrDefault(x=>x.IsPoster).Image" alt="Yuklenmedi" /></div>
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            <div class="userName"><b>@employer.Name</b></div>
+                                        </div>
+                                    </a>
+                                }
+                                else if (employer.Name != null && (employer.EmployerImages.FirstOrDefault(x => x.IsPoster) == null || employer.EmployerImages.FirstOrDefault(x => x.IsPoster).Image == null))
+                                {
+                                    <a asp-action="detail" asp-controller="employer" asp-route-id="@employer.Id" class="text-decoration-none">
+                                        <div class="card d-flex flex-row align-items-center onhoverBlack p-2">
+                                            <div class="userImage"><img style="width:40px;height:40px;border-radius:50%;" src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g" alt="Yuklenmedi" /></div>
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            <div class="userName"><b>@employer.Name</b></div>
+                                        </div>
+                                    </a>
+                                }
+                                else if (employer.Name == null && (employer.EmployerImages.FirstOrDefault(x => x.IsPoster) == null || employer.EmployerImages.FirstOrDefault(x => x.IsPoster).Image == null))
+                                {
+                                    <a asp-action="detail" asp-controller="employer" asp-route-id="@employer.Id" class="text-decoration-none">
+                                        <div class="card d-flex flex-row align-items-center onhoverBlack p-2">
+                                            <div class="userImage"><img style="width:40px;height:40px;border-radius:50%;" src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g" alt="Yuklenmedi" /></div>
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            <div class="userName"><b>@User.Identity.Name</b></div>
+                                        </div>
+                                    </a>
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            <a asp-action="login" asp-controller="account" class="text-decoration-none">
+                                <button class="border-radius border-0 py-2 px-2 backBlueOnHover">Giriş / Qeydiyyat</button>
+                            </a>
+                        }
+                        <hr />
+                        @if (User.Identity.Name != null)
+                        {
+                            Candidate candidate1 = service.GetLoginnedCandidate(User.Identity.Name.ToString());
+                            Employer employer1 = service.GetLoginnedEmployer(User.Identity.Name.ToString());
+                            if (candidate1 != null)
+                            {
+                                <div class="d-flex flex-column ">
+                                    <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="CandidateDashboard" asp-controller="candidate" asp-route-id="@candidate1.Id"><div class="  ">Statistika</div></a>
+                                    <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="CandidateProfileEdit" asp-controller="candidate" asp-route-id="@candidate1.Id"><div class="  w-100 h-100">Profil</div></a>
+                                    <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="CandidateResumeEdit" asp-controller="candidate" asp-route-id="@candidate1.Id"><div class=" w-100 h-100">CV-im</div></a>
+                                    <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="CandidateApplieds" asp-controller="candidate" asp-route-id="@candidate1.Id"><div class="  w-100 h-100">Müraciətlərim</div></a>
+                                    <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="CandidateShortList" asp-controller="candidate" asp-route-id="@candidate1.Id"><div class="  w-100 h-100">Sonra baxılacaqlar</div></a>
+                                    <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="CandidateFollowings" asp-controller="candidate" asp-route-id="@candidate1.Id"><div class="  w-100 h-100">İzlədiklərim</div></a>
+                                    <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="getcontacts" asp-controller="candidate"><div class="  w-100 h-100">Əlaqələr</div></a>
+                                    <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="CandidateEdit" asp-controller="account"><div class="  w-100 h-100">Şifrəni yenilə</div></a>
+                                    <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black delete-profile-btn" asp-action="RemoveCandidate" asp-controller="account" asp-route-id="@candidate1.Id"><div class="  w-100 h-100">Hesabı sil</div></a>
+                                    @if (User.Identity.Name != null)
+                                    {
+                                        <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="logout" asp-controller="account"><div class="  w-100 h-100">Çıxış</div></a>
+                                    }
+                                </div>
+                            }
+                            else if (employer1 != null)
+                            {
+                                <div class="d-flex flex-column ">
+                                    <li class=""><a>Statistika</a></li>
+                                    <li><a>Profil</a></li>
+                                    <li><a>İşləriniz</a></li>
+                                    <li><a>Müraciətləriniz</a></li>
+                                    @*<li class="divider"></li>*@
+                                    <li><a>İzləyicilər</a></li>
+                                    <li><a>İş yarat</a></li>
+                                    <li><a>Əlaqələr</a></li>
+                                    <li><a>Şifrəni dəyiş</a></li>
+                                    <li class="divider"></li>
+                                    <li><a asp-action="logout" asp-controller="account">Çıxış</a></li>
+                                    <li class="divider"></li>
+
+
+                                    <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="employerDashboard" asp-controller="employer" asp-route-id="@employer1.Id"><div class="  ">Statistika</div></a>
+                                    <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="EmployerProileEdit" asp-controller="employer" asp-route-id="@employer1.Id"><div class="  w-100 h-100">Profil</div></a>
+                                    <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="GetJobs" asp-controller="employer" asp-route-id="@employer1.Id"><div class=" w-100 h-100">İşləriniz</div></a>
+                                    <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="employerapplies" asp-controller="employer"><div class="  w-100 h-100">Müraciətləriniz</div></a>
+                                    <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="GetFollowers" asp-controller="employer" asp-route-id="@employer1.Id"><div class="  w-100 h-100">İzləyicilər</div></a>
+                                    <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="SubmitJob" asp-controller="employer" asp-route-newId="@employer1.Id"><div class="  w-100 h-100">İş yarat</div></a>
+                                    <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="GetContacts" asp-controller="employer"><div class="  w-100 h-100">Əlaqələr</div></a>
+                                    <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="EmployerEdit" asp-controller="account"><div class="  w-100 h-100">Şifrəni dəyiş</div></a>
+                                    <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black delete-profile-btn" asp-action="RemoveEmployer asp-controller="account" asp-route-id="@employer1.Id"><div class="  w-100 h-100">Hesabı sil</div></a>
+                                    @if (User.Identity.Name != null)
+                                    {
+                                        <a class="blueOnHover px-2 border-radius fontSize14   py-2  d-flex flex-row text-decoration-none black" asp-action="logout" asp-controller="account"><div class="  w-100 h-100">Çıxış</div></a>
+                                    }
+                                </div>
+                            }
+                        }
+
+
+
+                    </div>
+                </div>
+                <!-- modal-content -->
+            </div>
+            <!-- modal-dialog -->
+        </div>
+    </div>
+    <!-- FOOTER -->
+    @*<footer style="background-color: #302ea7">
+            <section class="py-5 container">
+                <div class="row g-1">
+                    <div class="col-lg-3 col-12 d-flex flex-column white"
+                         style="width: 22%; max-width: 22%">
+                        <div class="FooterLogo">
+                            <img src="~/SiteImages/@service.GetSetting().FooterLogo"
+                                 alt="" />
+                        </div>
+                        <br />
+                        <h5 class="CallUs d-flex flex-column">
+                            <b>Call Us</b>
+                            <span><b>@service.GetSetting().Phone</b> </span>
+                        </h5>
+                        <p><b>@service.GetSetting().Location</b></p>
+                        <p><b>@service.GetSetting().Email</b></p>
+                    </div>
+                    <div class="col-lg-3 col-12">
+                        <h5><b class="white">Find Jobs</b></h5>
+                        <p class="d-flex flex-row align-items-center FooterMenuItem">
+                            <span class="FooterMenuItemLeft"> </span>
+                            <a href="" class="white text-decoration-none">Browse Jobs</a>
+                        </p>
+                        <p class="d-flex flex-row align-items-center FooterMenuItem">
+                            <span class="FooterMenuItemLeft"> </span>
+                            <a href="" class="white text-decoration-none">Browse Candidates</a>
+                        </p>
+                        <p class="d-flex flex-row align-items-center FooterMenuItem">
+                            <span class="FooterMenuItemLeft"> </span>
+                            <a href="" class="white text-decoration-none">Candidate Dashboard</a>
+                        </p>
+                        <p class="d-flex flex-row align-items-center FooterMenuItem">
+                            <span class="FooterMenuItemLeft"></span>
+                            <a href="" class="white text-decoration-none">Job Alerts</a>
+                        </p>
+                        <p class="d-flex flex-row align-items-center FooterMenuItem">
+                            <span class="FooterMenuItemLeft"></span>
+                            <a href="" class="white text-decoration-none">My Bookmarks</a>
+                        </p>
+                    </div>
+                    <div class="col-lg-3 col-12">
+                        <h5><b class="white">Frequently Asked Questions</b></h5>
+                        <div class="Frequently">
+                            <div class="col-lg-6 col-12">
+                                <p class="d-flex flex-row align-items-center FooterMenuItem">
+                                    <span class="FooterMenuItemLeft"> </span>
+                                    <a href="" class="white text-decoration-none">Site Map</a>
+                                </p>
+                                <p class="d-flex flex-row align-items-center FooterMenuItem">
+                                    <span class="FooterMenuItemLeft"> </span>
+                                    <a href="" class="white text-decoration-none">Terms of Use</a>
+                                </p>
+                                <p class="d-flex flex-row align-items-center FooterMenuItem">
+                                    <span class="FooterMenuItemLeft"></span>
+                                    <a href="" class="white text-decoration-none">Privacy Center</a>
+                                </p>
+                                <p class="d-flex flex-row align-items-center FooterMenuItem">
+                                    <span class="FooterMenuItemLeft"> </span>
+                                    <a href="" class="white text-decoration-none">Security Center</a>
+                                </p>
+                                <p class="d-flex flex-row align-items-center FooterMenuItem">
+                                    <span class="FooterMenuItemLeft"> </span>
+                                    <a href="" class="white text-decoration-none">Accessibility Center</a>
+                                </p>
+                            </div>
+                            <div class="col-md-6 col-12 d-flex flex-column justify-content-end">
+                                <p class="d-flex flex-row align-items-center FooterMenuItem">
+                                    <span class="FooterMenuItemLeft"> </span>
+                                    <a href="" class="white text-decoration-none">Contact Us</a>
+                                </p>
+                                <p class="d-flex flex-row align-items-center FooterMenuItem">
+                                    <span class="FooterMenuItemLeft"> </span>
+                                    <a href="" class="white text-decoration-none">About Us</a>
+                                </p>
+                                <p class="d-flex flex-row align-items-center FooterMenuItem">
+                                    <span class="FooterMenuItemLeft"></span>
+                                    <a href="" class="white text-decoration-none">Terms</a>
+                                </p>
+                                <p class="d-flex flex-row align-items-center FooterMenuItem">
+                                    <span class="FooterMenuItemLeft"> </span>
+                                    <a href="" class="white text-decoration-none">Packages</a>
+                                </p>
+                                <p class="d-flex flex-row align-items-center FooterMenuItem">
+                                    <span class="FooterMenuItemLeft"> </span>
+                                    <a href="" class="white text-decoration-none">FAQ</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-12">
+                        <h5><b class="white">Join Us On</b></h5>
+                        <br />
+                        <p class="white">We don’t send spam so don’t worry.</p>
+                        <br />
+                        <div class="bg-white px-3 d-flex flex-row py-2 border-radius">
+                            <input type="email"
+                                   placeholder="Your e-mail"
+                                   class="border-0 w-75" />
+                            <div style="
+                      width: 50px;
+                      height: 50px;
+                      border-radius: 5px;
+                      background-color: chocolate;
+                      font-size: 29px;
+                    "
+                                 class="d-flex justify-content-center align-items-center">
+                                <i class="far fa-envelope white"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <hr class="white" />
+            <section class="d-flex align-items-center container py-3 HrBottom">
+                <div class="white col-sm-6 col-12">
+                    © <b class="NowYear"></b> Superio. All Right Reserved.
+                </div>
+                <div class="d-flex justify-content-end col-sm-6">
+                    <a href="@service.GetSetting().FacebookUrl"> <i class="fab fa-facebook-f white" style="float: left"></i></a>
+                    <a href="@service.GetSetting().TwitterUrl"><i class="fab fa-twitter white mx-3" style="float: left"></i></a>
+                    <a href="@service.GetSetting().InstagramUrl"><i class="fab fa-instagram white" style="float: left"></i></a>
+                    <a href="@service.GetSetting().LinkedinUrl"><i class="fab fa-linkedin-in white ms-3" style="float: left"></i></a>
+
+
+
+
+                </div>
+            </section>
+        </footer>*@
+
+
+    <footer style="background-color: #302ea7 !important">
+        <section class="footers bg-light pt-5 pb-3" style="background-color: #302ea7 !important">
+            <div class="container pt-5">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-4 footers-one">
+                        <div class="footers-logo">
+                            @*<img src="http://velikorodnov.com/html/autotrader/images/logo.png" alt="Logo" style="width:120px;">*@
+                            <h1 class="white"><b>Job Search</b></h1>
+
+                        </div>
+                        <div class="footers-info mt-3">
+                            <p>@service.GetSetting().Location</p>
+                        </div>
+                        <div class="social-icons">
+                            <a href="mailto:@service.GetSetting().Email"><i id="social-em" class="fa fa-envelope-square fa-2x social"></i></a>
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            <a href="tel:@service.GetSetting().Phone"><i id="social-em" class="fa fa-phone fa-2x social"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-2 footers-two">
+                        <h3 style="color:white"><b>İş</b> </h3>
+                        <ul class="list-unstyled">
+                            <li><a asp-action="index" asp-controller="candidate">Bütün işçilər</a></li>
+                            <li><a asp-action="index" asp-controller="job">Bütün işlər</a></li>
+                            @*<li><a asp-action="CandidateProfileEdit" asp-controller="candidate" asp-route-id="@service.GetLoginnedCandidate(User.Identity.Name).Id"> Profil</a></li>
+        <li><a asp-action="CandidateProfileEdit" asp-controller="candidate" asp-route-id="@service.GetLoginnedCandidate(User.Identity.Name).Id">CV</a></li>
+        <li><a asp-action="CandidateProfileEdit" asp-controller="candidate" asp-route-id="@service.GetLoginnedCandidate(User.Identity.Name).Id">Müraciətləriniz</a></li>
+        <li><a asp-action="CandidateProfileEdit" asp-controller="candidate" asp-route-id="@service.GetLoginnedCandidate(User.Identity.Name).Id">İzlədikləriniz</a></li>*@
+                            <li><a asp-action="CandidateRegister" asp-controller="account">Qeydiyyat (işçi)</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-2 footers-three">
+                        <h3 style="color:white"><b>Şirkət</b> </h3>
+                        <ul class="list-unstyled">
+                            <li><a asp-action="index" asp-controller="employer">Bütün şirkətlər</a></li>
+                            <li><a asp-action="index" asp-controller="job">İşlər</a></li>
+                            <li><a asp-action="EmployerRegister" asp-controller="account">Qeydiyyat (şirkət)</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-2 footers-four">
+                        <h3 style="color:white"><b>Haqqımızda</b> </h3>
+                        <ul class="list-unstyled">
+                            <li><a asp-action="index" asp-controller="about">Haqqında</a></li>
+                            <li><a asp-action="terms" asp-controller="about">Qaydalar</a></li>
+                            <li><a asp-action="faq" asp-controller="about">Suallar</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-2 footers-five">
+                        <h3 style="color:white"><b>Əlaqə</b> </h3>
+                        <ul class="list-unstyled">
+                            <li><a asp-action="index" asp-controller="contact">Bizimlə əlaqə</a></li>
+                            <li>
+                                <div>
+                                    <div class="white">E-mailinizi daxil edin: </div>
+                                    <div class="bg-white ps-3 d-flex flex-row border-radius">
+                                        <input type="email" name="Email"
+                                               placeholder="E-mail"
+                                               class="border-0 w-75 onclickBorderNone" />
+                                        <a asp-action="getsubscribe" asp-controller="contact" class="w-25 d-flex flex-row justify-content-end onclickToastr">
+                                            <div style="
+                  width: 36px;
+                  height: 32px;
+                  border-radius: 5px;
+                  background-color: chocolate;
+                  font-size: 18px;
+                "
+                                                 class="d-flex flex-row justify-content-center align-items-center ">
+                                                <button type="submit" class="w-100 h-100 text-decoration-none border-radius border-0" style="
+                  background-color: chocolate;
+                ">
+                                                    <i class="far fa-envelope white"></i>
+                                                </button>
+                                            </div>
+                                        </a>
+
+                                    </div>
+                                </div>
+
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <hr class="white" />
+        <section class="d-flex align-items-center container py-3 HrBottom">
+            <div class="white col-sm-6 col-12">
+                © <b class="NowYear"></b> JobSearch. All Right Reserved.
+            </div>
+            <div class="d-flex justify-content-end col-sm-6">
+                <a href="@service.GetSetting().FacebookUrl"> <i class="fab fa-facebook-f white" style="float: left"></i></a>
+                <a href="@service.GetSetting().TwitterUrl"><i class="fab fa-twitter white mx-3" style="float: left"></i></a>
+                <a href="@service.GetSetting().InstagramUrl"><i class="fab fa-instagram white" style="float: left"></i></a>
+                <a href="@service.GetSetting().LinkedinUrl"><i class="fab fa-linkedin-in white ms-3" style="float: left"></i></a>
+
+
+
+
+            </div>
+        </section>
+    </footer>
+</body>
+
+</html>
+<!-- --MAP --- -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSLSFRa0DyBj9VGzT7GM6SFbSMcG0YNBM"></script>
+<script type="text/javascript">
+    google.maps.event.addDomListener(window, "load", init);
+    function init() {
+        var a = $(".cordinatlar").attr("data-id1");
+        var b = $(".cordinatlar").attr("data-id2");
+        var mapOptions = {
+            zoom: 11,
+            center: new google.maps.LatLng(40.4093, 49.8671), // New York
+            styles: [
+                {
+                    featureType: "water",
+                    elementType: "geometry",
+                    stylers: [{ color: "#e9e9e9" }, { lightness: 17 }],
+                },
+                {
+                    featureType: "landscape",
+                    elementType: "geometry",
+                    stylers: [{ color: "#f5f5f5" }, { lightness: 20 }],
+                },
+                {
+                    featureType: "road.highway",
+                    elementType: "geometry.fill",
+                    stylers: [{ color: "#ffffff" }, { lightness: 17 }],
+                },
+                {
+                    featureType: "road.highway",
+                    elementType: "geometry.stroke",
+                    stylers: [{ color: "#ffffff" }, { lightness: 29 }, { weight: 0.2 }],
+                },
+                {
+                    featureType: "road.arterial",
+                    elementType: "geometry",
+                    stylers: [{ color: "#ffffff" }, { lightness: 18 }],
+                },
+                {
+                    featureType: "road.local",
+                    elementType: "geometry",
+                    stylers: [{ color: "#ffffff" }, { lightness: 16 }],
+                },
+                {
+                    featureType: "poi",
+                    elementType: "geometry",
+                    stylers: [{ color: "#f5f5f5" }, { lightness: 21 }],
+                },
+                {
+                    featureType: "poi.park",
+                    elementType: "geometry",
+                    stylers: [{ color: "#dedede" }, { lightness: 21 }],
+                },
+                {
+                    elementType: "labels.text.stroke",
+                    stylers: [
+                        { visibility: "on" },
+                        { color: "#ffffff" },
+                        { lightness: 16 },
+                    ],
+                },
+                {
+                    elementType: "labels.text.fill",
+                    stylers: [
+                        { saturation: 36 },
+                        { color: "#333333" },
+                        { lightness: 40 },
+                    ],
+                },
+                { elementType: "labels.icon", stylers: [{ visibility: "off" }] },
+                {
+                    featureType: "transit",
+                    elementType: "geometry",
+                    stylers: [{ color: "#f2f2f2" }, { lightness: 19 }],
+                },
+                {
+                    featureType: "administrative",
+                    elementType: "geometry.fill",
+                    stylers: [{ color: "#fefefe" }, { lightness: 20 }],
+                },
+                {
+                    featureType: "administrative",
+                    elementType: "geometry.stroke",
+                    stylers: [{ color: "#fefefe" }, { lightness: 17 }, { weight: 1.2 }],
+                },
+            ],
+        };
+        var mapElement = document.getElementById("googleMap");
+        var map = new google.maps.Map(mapElement, mapOptions);
+        var marker = new google.maps.Marker({
+            position: map.getCenter(),
+            animation: google.maps.Animation.BOUNCE,
+            icon: "img/map-marker.png",
+            map: map,
+        });
+    }
+</script>
+<!-- --TextEditor-- -->
+<script src="https://cdn.ckeditor.com/ckeditor5/29.1.0/classic/ckeditor.js"></script>
+@*<script src="https://cdn.ckeditor.com/ckeditor5/29.1.0/inline/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/29.1.0/balloon/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/29.1.0/balloon-block/ckeditor.js"></script>*@
+<script src="https://cdn.ckeditor.com/ckeditor5/29.1.0/decoupled-document/ckeditor.js"></script>
+@*<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script>
+        var quill = new Quill('#editor', {
+            theme: 'snow'
+        });
+    </script>*@
+<!-- <script src="https://cdn.anychart.com/releases/8.0.1/js/anychart-base.min.js"></script> -->
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script src="~/Navbar2/bootstrap3min.js"></script>
+<script src="~/Navbar2/jquery1.js"></script>
+<script src="~/Navbar2/index.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0/jquery.counterup.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.1/mixitup.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="~/js/index.js"></script>
+<!-- ---ForSidebar--- -->
+<!-- Jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- SlickSlider -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
+        integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.16.6/sweetalert2.min.js" integrity="sha512-CrNI25BFwyQ47q3MiZbfATg0ZoG6zuNh2ANn/WjyqvN4ShWfwPeoCOi9pjmX4DoNioMQ5gPcphKKF+oVz3UjRw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js" integrity="sha512-Tn2m0TIpgVyTzzvmxLNuqbSJH3JP8jm+Cy3hvHrW7ndTDcJ1w5mBiksqDBb8GpE2ksktFvDB/ykZ0mDpsZj20w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/fontawesome.min.js" integrity="sha512-ywaT8M9b+VnJ+jNG14UgRaKg+gf8yVBisU2ce+YJrlWwZa9BaZAE5GK5Yd7CBcP6UXoAnziRQl40/u/qwVZi4Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/solid.min.js" integrity="sha512-+KCv9G3MmyWnFnFrd2+/ccSx5ejo1yED85HZOvNDhtyHu2tuLL8df5BtaLXqsiF68wGLgxxMb4yL5oUyXjqSgw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/brands.min.js" integrity="sha512-8Jp5PI7qKEn304XONokQQRgiu/1P9kTBlvpLc7zRukkTBYGKt6z4CkwJUJhCwwWYnjSdxJcGqW9ifT7ZxPNgbg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/v4-shims.min.js" integrity="sha512-VoCKE84b8mEoHVEtuynO91AlOwMwqkmqfYidt+Jykpqo0EXgQq1Ya9OT+QX4o4CD3TAmf9o4Q0EJY2aq0uNUDQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript">
+    // Notice how this gets configured before we load Font Awesome
+    window.FontAwesomeConfig = { autoReplaceSvg: false }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+@RenderSection("Scripts", required: false)
+

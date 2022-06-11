@@ -1,0 +1,674 @@
+﻿@using System.ComponentModel
+@using JobSearchFullWebSite.Enums
+
+@using JobSearchFullWebSite.ViewModels
+@model HomeViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+@{
+    int totalPage = (int)ViewBag.TotalPageCount;
+    int selectedPage = (int)ViewBag.SelectedPage;
+}
+
+<!-- MAIN -->
+<main>
+    <div class="" style="
+    background-image: url('./../SiteImages/bg-slider2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden !important;
+  ">
+        <div class=" mt-5 d-flex  ms-3">
+            <div class="col-lg-7 col-12  d-flex flex-column justify-content-center">
+                <div class=" white mt-5" style="width: ">
+                    <h1 class=" text-center"><b>İŞ AXTARIŞI SAYTIMIZA XOŞ GƏLMİŞSİNİZ!</b></h1>
+                    <p class=" text-center">İş axtarışı & Karyera imkanları</p>
+                    <form class="w-100 py-2" asp-controller="job" asp-action="index">
+                        <div class="input-group d-flex px-1 bg-white " style="border-radius: 4px;">
+                            <span class="
+                    input-group-text
+                    bg-white
+                    py-4
+                    border-start-0
+                    inputSpan1
+
+                  ">
+                                <i class="fas fa-search ms-3 grey" style="font-size:20px"></i><input type="text" style="border-top:0px !important;" name="search"
+                                                                                                     class="py-4 ms-2 bg-white border-0 onclickBorderNone w-50"
+                                                                                                     placeholder="Axtarış..." />
+                            </span>
+                            <div class="input-group-text bg-white py-4 border-end-0 inputSpan d-flex flex-row justify-content-between " style="width:50%">
+                                <div class="ms-3 d-flex flex-row Cities" style="width:75%">
+                                    <i class="fas fa-map-marker-alt grey" style="font-size:20px"></i>
+                                    <select class="Cities ms-2 onclickBorderNone backColorBlue " style="width:75%" name="cityId" asp-items="@(new SelectList(Model.Cities, "Id", "CityName"))">
+                                        <option  disabled selected>Şəhərlər</option>
+                                    </select>
+                                </div>
+
+                                <a asp-action="index" asp-controller="job"
+                                   class="d-flex flex-row justify-content-end align-items-center findJob text-decoration-none">
+                                    <button type="submit"
+                                            class="background-yellow border-0 button white d-flex flex-row justify-content-end">
+                                        Axtar
+                                    </button>
+                                </a>
+                            </div>
+
+                        </div>
+                    </form>
+                    <br />
+                </div>
+                <span class="d-flex">
+                    <span class="white">Əsas iş elanları: &nbsp;&nbsp;</span>
+                    <span class="col-7 white ">
+                        @{
+                            int a = 0;
+                            @foreach (var item in Model.JobCategories.OrderByDescending(x => x.Jobs.Count()).ToList().Take(5))
+                            {
+                        <span>
+
+                                    @if (a != 4)
+                                    {
+                                        <a name="id"  id="id" type="submit" class="text-decoration-none white  bg-unset border-0 onhoverBlack" asp-action="index" asp-controller="job" asp-route-categoryId="@item.Id">@item.Name,</a>
+                                        <span>&nbsp;</span>
+                                    }
+                                    else
+                                    {
+                                        <a name="id" id="id" type="submit" class="text-decoration-none white bg-unset border-0 onhoverBlack" asp-action="index" asp-controller="job" asp-route-categoryId="@item.Id">@item.Name</a>
+                                        <span>&nbsp;</span>
+                                    }
+                        </span>
+                                
+
+                                a++;
+                            }
+                        }
+                    </span>
+                </span>
+            </div>
+            <div class="col-5 d-flex flex-column justify-content-center" ">
+                <div class="rightImage">
+                    <img src="./../SiteImages/slider2.png" alt="" />
+                </div>
+            </div>
+            <div class="d-flex ms-3">
+                <img src="./../Layihe/layihem/apusthemes.com/wp-demo/superio/wp-content/uploads/2021/04/slider21.png"
+                     alt=""
+                     class="ms-3 pb-5" />
+            </div>
+        </div>
+    </div>
+    <!-- How It Works -->
+    <br />
+    <br />
+    <br />
+    <section class="
+          mt-5
+          d-flex
+          justify-content-center
+          align-content-center
+          flex-column
+          container
+          pb-5
+        ">
+        <div class="d-flex flex-column align-items-center">
+            <h2><b>Saytda sizə lazım ola biləcək 3 əsas xüsusiyyət</b></h2>
+            <p class="grey">--------------------------------------------</p>
+        </div>
+        <div class="row mt-5">
+            @foreach (var item in Model.HowWorks)
+            {
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="
+                WorkCard
+                card
+                border-0
+                d-flex
+                flex-column
+                justify-content-center
+                align-items-center
+                text-center
+                py-5
+              ">
+                        <div class="work-card-image">
+                            <img src="~/images/howworkImage/@item.Image"
+                                 alt="" />
+                        </div>
+                        <div class="work-card-content">
+                            <br />
+                            <h5><b>@item.Title</b></h5>
+                            <p class="work-card-contentP grey px-5">@item.Content</p>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+    </section>
+    <!-- Featured Jobs -->
+
+    <section class="
+          mt-5
+          d-flex
+          justify-content-center
+          align-content-center
+          flex-column
+          pb-5
+        "
+             style="background-color: #cce4f7">
+        <div class="d-flex flex-column align-items-center mt-5">
+            <h2 class="mt-5"><b>İrəli çəkilmiş vakansiyalər </b></h2>
+            <p class="grey mx-3">
+                Xüsusi vakansiyalarla tanış olmaq imkanı
+            </p>
+        </div>
+        <div class="cards container mt-5">
+                @foreach (var item in Model.Jobs)
+                {
+                    <div class="d-flex flex-column align-content-center justify-content-center">
+                        <div class="col-12">
+                            <div class="card mb-5 flex-row py-4 border-radius FeaturedCard mx-5" style="width:100% !important;">
+                                <div class="d-flex justify-content-center flex-row">
+                                    @if (@item.JobImages.FirstOrDefault(x => x.IsPoster == true) != null)
+                                    {
+                                        if (@item.JobImages.FirstOrDefault(x => x.IsPoster == true).Image != null)
+                                        {
+                                            <img src="~/images/jobImage/@item.JobImages.FirstOrDefault(x=>x.IsPoster==true).Image"
+                                             alt=""
+                                             style="height: 60px; width: 60px"
+                                             class="CardImage" />
+                                        }
+                                        else
+                                        {
+                                            <img src="https://apusthemes.com/wp-demo/superio/wp-content/themes/superio/images/placeholder.png"
+                                             alt=""
+                                             style="height: 60px; width: 60px"
+                                             class="CardImage" />
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <img src="https://apusthemes.com/wp-demo/superio/wp-content/themes/superio/images/placeholder.png"
+                                         alt=""
+                                         style="height: 60px; width: 60px"
+                                         class="CardImage" />
+                                    }
+                                </div>
+                                <div class="col-lg-8 col-11 d-flex flex-column align-self-center ms-3 CommonContent">
+                                    <div class="col-12 d-flex  flex-row JobnAME">
+                                        <b>@item.Name</b>
+                                        &nbsp;
+                                        &nbsp;
+                                        &nbsp;
+                                        <span style="font-size: 13px; color: green">@(item.IsFeatured?"Xüsusi":"")</span>
+                                    </div>
+                                    <div class="col-12 d-flex flex-row row pt-2 FlexCenter">
+                                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 grey">
+                                            <i class="bi bi-briefcase"></i>
+                                            <span>@item.Employer.Category.Name</span>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 grey">
+                                            <i class="bi bi-geo-alt"></i>
+                                            <span>@item.City.CityName</span>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 grey">
+                                            <i class="bi bi-clock"></i>
+                                            <span>@item.CreatedAt.ToString("dd.MM.yyyy")</span>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 grey">
+                                            <i class="bi bi-cash-stack"></i>
+                                            <span>@item.OfferedMinSalary - @item.OfferedMaxSalary</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-11 flex-column align-self-center JobCardRight ms-3">
+                                    <div class="col-12 d-flex cardRightJobs">
+                                        <div class="icon d-flex cardRightJobsIcon">
+                                            @if (Model.Candidate != null)
+                                            {
+                                                <a asp-action="AddJobToShortlist" asp-controller="job" asp-route-jobİd="@item.Id" asp-route-candidateId="@(Model.Candidate.Id)" class="text-decoration-none">
+                                                    <i style="font-size: 13px"
+                                                   class="bi bi-bookmark d-flex justify-content-end"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a asp-action="login" asp-controller="account" class="text-decoration-none">
+                                                    <i style="font-size: 13px"
+                                                   class="bi bi-bookmark d-flex justify-content-end"></i>
+                                                </a>
+                                            }
+
+                                        </div>
+
+                                        <div class="FullTimeUrgent justify-content-end pt-2">
+                                            @{
+                                                DescriptionAttribute b = (DescriptionAttribute)(((typeof(JobType)).GetField(item.JobType.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), true))[0];
+                                                <span class="px-3 d-flex align-items-center"
+                                                  style="background-color: #dde8f8;border-radius: 20px;color: #7b64ac;font-size: 12px;">@b.Description</span>
+                                            }
+                                            &nbsp;&nbsp;&nbsp;
+                                            @if (item.IsUrgent)
+                                            {
+                                                <span class="px-3 d-flex align-items-center" style="background-color: #fef2d9;border-radius: 20px;color: #fcc546;font-size: 12px;">Təcili</span>
+                                            }
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                }
+            @if (ViewBag.SelectedPage != ViewBag.TotalPageCount)
+            {
+                   <div class="d-flex justify-content-center w-100">
+                <a asp-action="index" asp-controller="home" asp-route-jobsPage="@(ViewBag.SelectedPage<ViewBag.TotalPageCount?ViewBag.SelectedPage+1:ViewBag.TotalPageCount)"><button class="btn btn-primary px-4">Daha çox</button></a>
+            </div>
+            }
+         
+       @*     else
+            {
+                @foreach (var item in Model.Jobs)
+                {
+                    <div class="d-flex flex-column align-content-center justify-content-center">
+                        <div class="col-12">
+                            <div class="card mb-5 flex-row py-4 border-radius FeaturedCard mx-5" style="width:100% !important;">
+                                <div class="d-flex justify-content-center flex-row">
+                                    @if (@item.JobImages.FirstOrDefault(x => x.IsPoster == true) != null)
+                                    {
+                                        if (@item.JobImages.FirstOrDefault(x => x.IsPoster == true).Image != null)
+                                        {
+                                            <img src="~/images/jobImage/@item.JobImages.FirstOrDefault(x=>x.IsPoster==true).Image"
+                                             alt=""
+                                             style="height: 60px; width: 60px"
+                                             class="CardImage" />
+                                        }
+                                        else
+                                        {
+                                            <img src="https://apusthemes.com/wp-demo/superio/wp-content/themes/superio/images/placeholder.png"
+                                             alt=""
+                                             style="height: 60px; width: 60px"
+                                             class="CardImage" />
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <img src="https://apusthemes.com/wp-demo/superio/wp-content/themes/superio/images/placeholder.png"
+                                         alt=""
+                                         style="height: 60px; width: 60px"
+                                         class="CardImage" />
+                                    }
+                                </div>
+                                <div class="col-lg-8 col-11 d-flex flex-column align-self-center ms-3 CommonContent">
+                                    <div class="col-12 d-flex  flex-row JobnAME">
+                                        <b>@item.Name</b>
+                                        &nbsp;
+                                        &nbsp;
+                                        &nbsp;
+                                        <span style="font-size: 13px; color: green">@(item.IsFeatured?"Xüsusi":"")</span>
+                                    </div>
+                                    <div class="col-12 d-flex flex-row row pt-2 FlexCenter">
+                                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 grey">
+                                            <i class="bi bi-briefcase"></i>
+                                            <span>@item.Employer.Category.Name</span>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 grey">
+                                            <i class="bi bi-geo-alt"></i>
+                                            <span>@item.City.CityName</span>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 grey">
+                                            <i class="bi bi-clock"></i>
+                                            <span>@item.CreatedAt.ToString("dd.MM.yyyy")</span>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 grey">
+                                            <i class="bi bi-cash-stack"></i>
+                                            <span>@item.OfferedMinSalary - @item.OfferedMaxSalary</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-11 flex-column align-self-center JobCardRight ms-3">
+                                    <div class="col-12 d-flex cardRightJobs">
+                                        <div class="icon d-flex cardRightJobsIcon">
+                                            @if (Model.Candidate != null)
+                                            {
+                                                <a asp-action="AddJobToShortlist" asp-controller="job" asp-route-jobİd="@item.Id" asp-route-candidateId="@(Model.Candidate.Id)" class="text-decoration-none">
+                                                    <i style="font-size: 13px"
+                                                   class="bi bi-bookmark d-flex justify-content-end"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a asp-action="login" asp-controller="account" class="text-decoration-none">
+                                                    <i style="font-size: 13px"
+                                                   class="bi bi-bookmark d-flex justify-content-end"></i>
+                                                </a>
+                                            }
+
+                                        </div>
+
+                                        <div class="FullTimeUrgent justify-content-end pt-2">
+                                            @{
+                                                DescriptionAttribute b = (DescriptionAttribute)(((typeof(JobType)).GetField(item.JobType.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), true))[0];
+                                                <span class="px-3 d-flex align-items-center"
+                                                  style="background-color: #dde8f8;border-radius: 20px;color: #7b64ac;font-size: 12px;">@b.Description</span>
+                                            }
+                                            &nbsp;&nbsp;&nbsp;
+                                            @if (item.IsUrgent)
+                                            {
+                                                <span class="px-3 d-flex align-items-center" style="background-color: #fef2d9;border-radius: 20px;color: #fcc546;font-size: 12px;">Təcili</span>
+                                            }
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+            }*@
+
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+    <!-- Featured Cities -->
+    <br />
+    <br />
+    <br />
+    <section class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 col-12">
+                <h2 class=""><b>Əsas vakansiya məkanları </b></h2>
+                <p class="grey">
+                    Yaşadığınız əraziyə uyğun iş imkanı əldə etmək
+                </p>
+            </div>
+            <div class="
+              col-md-4 col-12
+              d-flex
+              justify-content-end
+              align-items-center
+              flex-row
+              Browse
+            ">
+                <a asp-action="index" asp-controller="job" class="d-flex flex-row align-items-center text-decoration-none">
+                    Bütün vakansiyalar<i class="bi bi-chevron-compact-right"
+                                           style="font-size: small"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="row gy-4">
+
+            <div class="col-lg-4 col-12 CityImage">
+                <div class="m-2 border-radius" style="overflow:hidden;">
+                    <a class="text-decoration-none" asp-action="index" asp-controller="job" asp-route-cityId="@Model.Cities.First().Id">
+                        <img src="~/Cities/@Model.Cities.First().Image"
+                             alt=""
+                             class="CitiesImage" />
+                    </a>
+                  
+                </div>
+                <div class="over" style="background:black;padding:10px;opacity:0.5;">
+                    <form asp-action="index" asp-controller="job">
+                        <input type="hidden" name="cityId" value="@Model.Cities.First().Id" />
+                        <h4 class="overH4"><button class="border-0 bg-unset white fontSize14 " style="background:red;color:white;font-weight:600;">@Model.Cities.First().CityName</button> </h4>
+                    </form>
+                    <div style="color: white;">@Model.Cities.First().Jobs.Where(x=>x.IsDeleted==false && x.ApplyStatus==ApplyStatus.Accepted).Count() İş</div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-12">
+                <div class="row gx-4 gy-4">
+                    @foreach (var item in Model.Cities.Skip(1).Take(4))
+                    {
+                        <div class="col-md-6 col-12 CityImage">
+                            <div class="m-2 border-radius"  style="overflow:hidden;">
+                                <a class="text-decoration-none" asp-action="index" asp-controller="job" asp-route-cityId="@item.Id">
+                                    <img src="~/Cities/@item.Image"
+                                         alt=""
+                                         class="RightImage CitiesImage" />
+                                </a>
+                          
+                            </div>
+                            <div class="over" style="background:black;padding:10px;opacity:0.5;">
+                                <form asp-action="index" asp-controller="job">
+                                    <input type="hidden" name="cityId" value="@item.Id" />
+                                    <h4 class="overH4"><button class="border-0 bg-unset white fontSize14" style="background:red;color:white;font-weight:600;">@item.CityName</button> </h4>
+                                </form>
+                                <div style="color: white;">@item.Jobs.Where(x=>x.IsDeleted==false && x.ApplyStatus==ApplyStatus.Accepted).Count() İş</div>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Your Dream Jobs Are Waiting -->
+    <br />
+    <br />
+    <br />
+    <section class="
+          mt-5
+          d-flex
+          justify-content-center
+          align-items-center
+          flex-column
+          py-5
+        "
+             style="        background-image: url(@Html.Raw("/SiteImages/bg_shape.jpg"));
+        width: 100%;
+    ">
+        <div class="
+            container
+            d-flex
+            justify-content-center
+            align-items-center
+            flex-column
+          ">
+            <h2 class="white pt-5 mt-5">Arzuladığınız iş imknaları yalnız burada</h2>
+            <div class="white">
+                Xoşladığınız işlərə müraciət etmək imkanı
+            </div>
+            <div class="buttons mt-4 pb-5 mb-5">
+                <a asp-action="index" asp-controller="job">
+                    <button class="border-radius px-3 py-2 SearchJob">
+                        İş Axtar
+                    </button>
+                </a>
+                <a asp-action="index" asp-controller="job">
+                    <button class="border-radius px-3 ms-4 py-2 ApplyJob">
+                        Müraciət et
+                    </button>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+    <!-- Featured Candidates -->
+    <section class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 col-12">
+                <h2 class="mt-5"><b>İrəli çəkilmiş iş axtaranlar </b></h2>
+                <p class="grey">
+                    Seçəcəyiniz işçiləri saytımızda axtarmaq imkanı
+                </p>
+            </div>
+            <div class="
+              col-md-4 col-12
+              d-flex
+              justify-content-end
+              align-items-center
+              flex-row
+              Browse
+            ">
+                <a asp-action="index" asp-controller="candidate" class="d-flex flex-row align-items-center">
+                    Hamısına bax<i class="bi bi-chevron-compact-right"
+                                            style="font-size: small"></i>
+                </a>
+            </div>
+        </div>
+        <ul class="responsive row container">
+            @foreach (var item in Model.Candidates)
+            {
+                <li class="single-item me-4">
+                    <div class="card py-5 px-3 CandidateCard">
+                        <div class="
+                  CandidateCardImage
+                  d-flex
+                  flex-column
+                  justify-content-center
+                  align-items-start
+                ">
+                            @*<div class="CandidateCardBookMark w-100 d-flex justify-content-end">
+                                    <a asp-action="AddJobToShortlist" asp-controller="job" asp-route-jobId=""><i class="fas fa-bookmark me-0"></i></a>
+                                </div>*@
+                            <div class="CandidateCardImage d-flex justify-content-center w-100">
+
+                                @if (@item.CandidateImages.FirstOrDefault(x => x.IsPoster) != null)
+                                {
+                                    if (@item.CandidateImages.FirstOrDefault(x => x.IsPoster).Image != null)
+                                    {
+                                        <img src="~/images/candidateImage/@item.CandidateImages.FirstOrDefault(x=>x.IsPoster).Image"
+                                             alt=""
+                                             style="width: 80px; height: 80px; border-radius: 50%"
+                                             class="d-flex justify-content-center" />
+                                    }
+                                    else
+                                    {
+                                        <img src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g"
+                                             alt=""
+                                             style="width: 80px; height: 80px; border-radius: 50%"
+                                             class="d-flex justify-content-center" />
+                                    }
+                                }
+                                else
+                                {
+                                    <img src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g"
+                                         alt=""
+                                         style="width: 80px; height: 80px; border-radius: 50%"
+                                         class="d-flex justify-content-center" />
+                                }
+                            </div>
+                        </div>
+                        <div class="
+                  CandidateCardContent
+                  d-flex
+                  flex-column
+                  justify-content-center
+                  align-items-center
+                ">
+                            <h6 class="CandidateCardName mt-3"><b>@item.FullName</b></h6>
+                            <p class="CandidateCardPosition" style="color: blue">
+                                @item.Position.PositionName
+                            </p>
+                            <p class="CandidateCardLocation">
+                                <i class="bi bi-geo-alt"></i>
+                                <span class="grey">@item.City.CityName</span>
+                            </p>
+                            <a asp-action="detail" asp-controller="candidate" asp-route-id="@item.Id">
+                                <button class="btn CandidateCardButton px-4">
+                                    Profilə bax
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            }
+
+        </ul>
+    </section>
+    <!-- Recent News Articles -->
+    <br />
+    <br />
+    <hr />
+    <section class="container mt-5">
+        <div class="d-flex flex-column align-items-center mt-5">
+            <h2 class="mt-5 text-center"><b>Ən yeni bloqlar </b></h2>
+            <p class="grey text-center">
+                Bilməli olduqlarınız
+            </p>
+        </div>
+        <div class="row g-4">
+            @foreach (var item in Model.BlogItems)
+            {
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="card border-0 ArticleCard">
+                        <div class="ArticleCardImage w-100 border-radius">
+                            <img style="height:162px;" src="~/images/blogImage/@item.ContainerImage"
+                                 alt=""
+                                 class="w-100 m-0 border-radius" />
+                        </div>
+                        <div class="ArticleCardContent mt-3">
+                            <div class="d-flex flex-row">
+                                <span class="grey">@item.CreatedAt.ToString("dd.MM.yyyy")</span>
+                                @*<li class="ms-1 grey">3 Comments</li>*@
+                            </div>
+                            <div><a asp-action="detail" asp-controller="blog" asp-route-id="@item.Id">@(item.Title.Length>108?item.Title.ToString().Substring(0, 108):item.Title.ToString())...</a></div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+    <!-- Let employers find you -->
+    <br />
+    <section class="mt-5 py-2" style="background-color: #deebff">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-12">
+                    <h2 class="mt-5"><b>Şirkətlərin sizi dəyərləndirmələrinə icazə verin </b></h2>
+                    <p class="grey">
+                        Şirkətlərin məlumatlarınızla yaxından tanış olmaları üçün CV əlavə etmək!
+                    </p>
+                </div>
+                <div class="
+                col-md-4 col-12
+                d-flex
+                justify-content-end
+                align-items-center
+                flex-row
+                Browse
+              ">
+                    @if (Model.Candidate != null)
+                    {
+                        <a asp-action="CandidateResumeEdit" asp-controller="candidate" asp-route-id="@Model.Candidate.Id" class="">
+                            <button class="btn btn-primary">CV Yüklə</button>
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-action="login" asp-controller="account" class="">
+                            <button class="btn btn-primary">CV Yüklə</button>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

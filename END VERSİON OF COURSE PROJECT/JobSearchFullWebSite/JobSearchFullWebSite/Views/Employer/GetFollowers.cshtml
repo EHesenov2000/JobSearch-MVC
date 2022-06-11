@@ -1,0 +1,249 @@
+﻿@using JobSearchFullWebSite.ViewModels
+@model FollowerListAndEmployerViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "GetFollowers";
+}
+@{
+    int totalPage = (int)ViewBag.TotalPageCount;
+    int selectedPage = (int)ViewBag.SelectedPage;
+}
+<div class="cont">
+    <div class="main px-4">
+        <br />
+        <br />
+        <button class="showOn700 btn btn-primary" data-toggle="modal"
+                data-target="#myModal1">
+            <i class="fas fa-align-justify white"></i>&nbsp;&nbsp;&nbsp;<span class="white">Menyu</span>
+        </button>
+        <br />
+        <br />
+        <div class="d-flex flex-row justify-content-center">
+            <h2><b>İzləyiciləriniz</b></h2>
+        </div>
+        <br />
+        @if (Model.Followers.Count() > 0)
+        {
+            <div class="d-flex flex-row">
+                <form method="post">
+                    <div style="background-color:#cce4f7;" class="
+                    SearchIcon
+                    d-flex
+                    flex-row
+
+                    border-radius
+                    py-2
+                    px-2
+                  ">
+                        <button type="submit" class="border-0" style="background-color:#cce4f7;"><i class="fas fa-search d-flex flex-row align-items-center grey"></i></button>
+                        <input style="background-color:#cce4f7;" type="text" name="search" value="@ViewBag.Search"
+                               placeholder="Axtarış.."
+                               class="border-0  border-radius onclickBorderNone" />
+                    </div>
+
+                </form>
+
+            </div>
+            <br />
+            <br />
+        }
+        else
+        {
+            <div><h2>Yoxdur</h2></div>
+        }
+
+        <div class="row gx-4 gy-4">
+            @if (Model.Followers.Count() > 0)
+            {
+                @foreach (var item in Model.Followers)
+                {
+                    <div class="col-md-4">
+                        <div class="card d-flex flex-row  py-2 backColorBlue">
+                            <div class="col-md-10 d-flex flex-row align-items-center">
+                                @if (item.Candidate.CandidateImages.FirstOrDefault(x => x.IsPoster) != null && item.Candidate.CandidateImages.FirstOrDefault(x => x.IsPoster).Image != null)
+                                {
+                                    <div class="Image"><img src="~/images/candidateImage/@item.Candidate.CandidateImages.FirstOrDefault(x=>x.IsPoster).Image" alt="Sekil yuklenmedi" style="width:50px;height:50px;border-radius:50%;" /></div>
+                                }
+                                else
+                                {
+                                    <div class="Image"><img src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g" alt="Sekil yuklenmedi" style="width:50px;height:50px;border-radius:50%;" /></div>
+                                }
+                                <div class="Name ms-2"><a asp-action="detail" asp-controller="candidate" asp-route-id="@item.Id" class="text-decoration-none">@item.Candidate.FullName</a></div>
+                            </div>
+                            <div class="col-md-2 d-flex flex-row align-items-center justify-content-end">
+                                <a class="İcon backColorBlue d-flex justify-content-center align-items-center text-decoration-none" style="border-radius:50%;width:20px;height:20px;" asp-action="RemoveFollow" asp-controller="candidate" asp-route-id="@item.Id"><i class="fas fa-times p-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+
+            }
+
+        </div>
+
+        <br />
+        @if (Model.Followers.Count() == 6)
+        {
+            <div class="d-flex justify-content-center w-100">
+                <a asp-action="getfollowers" asp-controller="employer" asp-route-page="@(selectedPage<totalPage?selectedPage+1:totalPage)" asp-route-search="@ViewBag.Search"><button class="btn btn-primary px-4">Daha çox</button></a>
+            </div>
+        }
+
+    </div>
+    <div class="sidebar ps-3">
+        <br />
+        <br />
+        <div class="">
+            <div class="ImageAndUserName flex-row">
+                <div class="UserImage d-flex align-items-center">
+                    @if (Model.Employer.EmployerImages.FirstOrDefault(x => x.IsPoster) != null && Model.Employer.EmployerImages.FirstOrDefault(x => x.IsPoster).Image != null)
+                    {
+                        <img src="~/images/employerImage/@Model.Employer.EmployerImages.FirstOrDefault(x=>x.IsPoster).Image"
+                             alt=""
+                             style="width: 60px; height: 60px; border-radius: 50%" />
+                    }
+                    else
+                    {
+                        <img src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g"
+                             alt=""
+                             style="width: 60px; height: 60px; border-radius: 50%" />
+                    }
+
+                </div>
+                <div class="
+                    d-flex
+                    flex-column
+                    ms-3
+                    align-items-center
+                    justify-content-center
+                  ">
+                    @if (Model.Employer != null && Model.Employer.Name != null)
+                    {
+                        <div class="UserName black"><b>@Model.Employer.Name</b></div>
+                    }
+                    else
+                    {
+                        <div class="UserName black"><b>@Model.Employer.AppUser.UserName</b></div>
+                    }
+                    @if (Model.Employer!=null && Model.Employer.City!=null)
+                    {
+                        <div class="UserCity black">@Model.Employer.City.CityName</div>
+                    }
+                    <div class="UserProfileButton">
+                        <a class="text-decoration-none " asp-action="detail" asp-controller="employer" asp-route-id="@Model.Employer.Id">
+                            <button class="btn btn-primary" style="font-size: 10px">
+                                Profilə bax
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="d-flex flex-column">
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="employerDashboard" asp-controller="employer" asp-route-id="@Model.Employer.Id">
+                    <div class="Icon"><i class="far fa-file-alt"></i></div>
+                    <div class="SectionName ms-2">Statistika</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="EmployerProileEdit" asp-controller="employer" asp-route-id="@Model.Employer.Id">
+                    <div class="Icon"><i class="far fa-user-circle"></i></div>
+                    <div class="SectionName ms-2">Profil</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="GetJobs" asp-controller="employer" asp-route-id="@Model.Employer.Id">
+                    <div class="Icon"><i class="fas fa-file-signature"></i></div>
+                    <div class="SectionName ms-2">İşləriniz</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="employerapplies" asp-controller="employer">
+                    <div class="Icon"><i class="fas fa-file-signature"></i></div>
+                    <div class="SectionName ms-2">Müraciətləriniz</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="GetFollowers" asp-controller="employer" asp-route-id="@Model.Employer.Id">
+                    <div class="Icon"><i class="fas fa-volume-up"></i></div>
+                    <div class="SectionName ms-2">İzləyicilər</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="SubmitJob" asp-controller="employer" asp-route-newId="@Model.Employer.Id">
+                    <div class="Icon"><i class="far fa-bookmark"></i></div>
+                    <div class="SectionName ms-2">İş yarat</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="GetContacts" asp-controller="employer">
+                    <div class="Icon"><i class="far fa-user"></i></div>
+                    <div class="SectionName ms-2">Əlaqələr</div>
+                </a>
+                @*<a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3">
+            <div class="Icon"><i class="fas fa-volume-up"></i></div>
+            <div class="SectionName ms-2">Alert Jobs</div>
+        </a>
+        <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3">
+            <div class="Icon"><i class="fab fa-weixin"></i></div>
+            <div class="SectionName ms-2">Messages</div>
+        </a>*@
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="EmployerEdit" asp-controller="account">
+                    <div class="Icon"><i class="fas fa-lock"></i></div>
+                    <div class="SectionName ms-2">Şifrəni yenilə</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none delete-profile-btn" asp-action="RemoveEmployer" asp-controller="account" asp-route-id="@Model.Employer.Id">
+                    <div class="Icon"><i class="far fa-trash-alt"></i></div>
+                    <div class="SectionName ms-2">Hesabı sil</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius me-2 py-3 text-decoration-none" asp-action="logout" asp-controller="account">
+                    <div class="Icon"><i class="fas fa-power-off"></i></div>
+                    <div class="SectionName ms-2">Çıxış</div>
+                </a>
+            </div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+        </div>
+    </div>
+    </div>
+
+<style>
+    body {
+        font-size: 15px !important;
+        background-color: #f4f7fc;
+    }
+
+    .UserProfileItem {
+        padding-bottom: 5px;
+        padding-top: 5px;
+    }
+
+        .UserProfileItem:hover {
+            background-color: #f4f7fc;
+        }
+
+    .sidebar {
+        background: white;
+        color: white;
+        position: fixed;
+        width: 20%;
+        height: 100%;
+        left: 0;
+        overflow: auto;
+        display: block;
+        margin-top: -30px !important;
+        padding-top: 40px !important;
+    }
+
+    .main {
+        /*background: silver;*/
+        color: black;
+        width: 80%;
+        float: right;
+    }
+
+        .main p {
+            margin-bottom: 50px;
+        }
+
+    footer {
+        display: none;
+    }
+
+    .ImageAndUserName {
+        display: flex;
+    }
+</style>

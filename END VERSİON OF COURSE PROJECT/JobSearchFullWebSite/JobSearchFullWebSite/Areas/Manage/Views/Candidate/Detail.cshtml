@@ -1,0 +1,21 @@
+﻿@using JobSearchFullWebSite.Models
+@using JobSearchFullWebSite.Enums
+@using System.ComponentModel
+@model Candidate
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card mx-5 my-5 p-3">
+    <div class="d-flex flex-row justify-content-center"><h2> @Model.FullName</h2></div>
+    @{
+        DescriptionAttribute a = (DescriptionAttribute)(((typeof(Gender)).GetField(Model.Gender.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), true))[0];
+        <div class="gender">Cinsi: @a.Description</div>
+    }
+    <div class="birthdate">Doğum tarixi: @Model.BirthdayDate</div>
+    <div class="age">Yaşı: @Model.Age</div>
+    <div class="createdAt">Yaradıldı: @Model.CreatedAt.ToString("MM.dd.yyyy")</div>
+    <div class="Email">Email: @Model.Email</div>
+    <div class="PhoneNumber">Əlaqə: @Model.PhoneNumber</div>
+</div>

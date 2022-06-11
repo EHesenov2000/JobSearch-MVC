@@ -1,0 +1,419 @@
+﻿@using JobSearchFullWebSite.Models
+@model Candidate 
+@{
+    ViewData["Title"] = "CandidateDashboard";
+}
+
+
+<div class="cont">
+    <div class="main">
+        <br />
+        <br />
+        <div class="mx-5">
+            <button class="showOn700 btn btn-primary" data-toggle="modal"
+                    data-target="#myModal1">
+                <i class="fas fa-align-justify white"></i>&nbsp;&nbsp;&nbsp;<span class="white">Menyu</span>
+            </button>
+            <div class=" centerOnClick">
+                <div class=" py-5 leftSection">
+                    <div class="d-flex flex-column">
+                        <h4 class="mt-4"><b>Ümumi statistika</b></h4>
+                        <br />
+                        <div class="row g-3">
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                                <div style="min-height:110px;" class="
+                      card
+                      p-3
+                      d-flex
+                      flex-row
+                      border-radius
+                      justify-content-center
+                      align-items-center
+                    ">
+                                    <div class="
+                        DashboardIcon
+                        d-flex
+                        flex-row
+                        align-items-center
+                        justify-content-center
+                        border-radius
+                      "
+                                         style="
+                        background-color: #e8f0fa;
+                        width: 40px;
+                        height: 40px;
+                      ">
+                                        <i class="fas fa-briefcase blue"></i>
+                                    </div>
+                                    <div class="d-flex flex-column ms-3">
+                                        <b class="blue d-flex justify-content-end">@Model.AppUser.Applies.Count()</b>
+                                        <span class="grey">Müraciətləriniz</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                                <div style="        min-height: 110px;" class="
+                      card
+                      p-3
+                      d-flex
+                      flex-row
+                      border-radius
+                      justify-content-center
+                      align-items-center
+                    ">
+                                    <div class="
+                        DashboardIcon
+                        d-flex
+                        flex-row
+                        align-items-center
+                        justify-content-center
+                        border-radius
+                      "
+                                         style="
+                        background-color: #fef6e5;
+                        width: 40px;
+                        height: 40px;
+                        color: #f7aa00;
+                      ">
+                                        <i class="far fa-comments"></i>
+                                    </div>
+                                    <div class="d-flex flex-column ms-3">
+                                        <b class="d-flex justify-content-end"
+                                           style="color: #f7aa00">@Model.ShortLists.Count()</b>
+                                        <span class="grey">Sonra baxılacaqlar</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                                <div style="        min-height: 110px;" class="
+                      card
+                      p-3
+                      d-flex
+                      flex-row
+                      border-radius
+                      justify-content-center
+                      align-items-center
+                    ">
+                                    <div class="
+                        DashboardIcon
+                        d-flex
+                        flex-row
+                        align-items-center
+                        justify-content-center
+                        border-radius
+                      "
+                                         style="
+                        background-color: #fbeae9;
+                        width: 40px;
+                        height: 40px;
+                        color: #d93025;
+                      ">
+                                        <i class="far fa-eye"></i>
+                                    </div>
+                                    <div class="d-flex flex-column ms-3">
+                                        <b class="d-flex justify-content-end"
+                                           style="color: #d93025">@Model.CandidateContacts.Count()</b>
+                                        <span class="grey">Əlaqə yaratmaq istəyənlər</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                                <div style="        min-height: 110px ;" class="
+                      card
+                      p-3
+                      d-flex
+                      flex-row
+                      border-radius
+                      justify-content-center
+                      align-items-center
+                    ">
+                                    <div class="
+                        DashboardIcon
+                        d-flex
+                        flex-row
+                        align-items-center
+                        justify-content-center
+                        border-radius
+                      "
+                                         style="
+                        background-color: #eaf6ed;
+                        width: 40px;
+                        height: 40px;
+                        color: #69a853;
+                      ">
+                                        <i class="far fa-bookmark"></i>
+                                    </div>
+                                    <div class="d-flex flex-column ms-3">
+                                        <b class="d-flex justify-content-end"
+                                           style="color: #69a853">@Model.Followers.Count()</b>
+                                        <span class="grey">İzlədikləriniz</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+                    <div id="chartContainer"></div>
+                    <div id="chartC
+                            ght: 300px; width: 100%"
+                         class="mt-5"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar ps-3">
+        <br />
+        <br />
+        <div class="">
+            <div class="ImageAndUserName flex-row">
+                <div class="UserImage d-flex align-items-center">
+                    @if (Model.CandidateImages.FirstOrDefault(x => x.IsPoster) != null && Model.CandidateImages.FirstOrDefault(x => x.IsPoster).Image != null)
+                    {
+                        <img src="~/images/candidateImage/@Model.CandidateImages.FirstOrDefault(x=>x.IsPoster).Image"
+                             alt=""
+                             style="width: 60px; height: 60px; border-radius: 50%" />
+                    }
+                    else
+                    {
+                        <img src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g"
+                             alt=""
+                             style="width: 60px; height: 60px; border-radius: 50%" />
+                    }
+
+                </div>
+                <div class="
+                    d-flex
+                    flex-column
+                    ms-3
+                    align-items-center
+                    justify-content-center
+                  ">
+                    @if (Model.FullName != null)
+                    {
+                        <div class="UserName black"><b>@Model.FullName</b></div>
+                    }
+                    else
+                    {
+                        <div class="UserName black"><b>@Model.AppUser.UserName</b></div>
+                    }
+                    @if (Model.City != null)
+                    {
+                        <div class="UserCity black">@Model.City.CityName</div>
+                    }
+                    <div class="UserProfileButton">
+                        <a class="text-decoration-none " asp-action="detail" asp-controller="candidate" asp-route-id="@Model.Id">
+                            <button class="btn btn-primary" style="font-size: 10px">
+                                Profilə bax
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="d-flex flex-column">
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateDashboard" asp-controller="candidate" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="far fa-file-alt"></i></div>
+                    <div class="SectionName ms-2">Statistika</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateProfileEdit" asp-controller="candidate" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="far fa-user-circle"></i></div>
+                    <div class="SectionName ms-2">Profil</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateResumeEdit" asp-controller="candidate" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="fas fa-file-signature"></i></div>
+                    <div class="SectionName ms-2">CV-im</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateApplieds" asp-controller="candidate" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="fas fa-volume-up"></i></div>
+                    <div class="SectionName ms-2">Müraciətlərim</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateShortList" asp-controller="candidate" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="far fa-bookmark"></i></div>
+                    <div class="SectionName ms-2">Sonra baxılacaqlar</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateFollowings" asp-controller="candidate" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="far fa-user"></i></div>
+                    <div class="SectionName ms-2">İzlədiklərim</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="getcontacts" asp-controller="candidate">
+                    <div class="Icon"><i class="far fa-user"></i></div>
+                    <div class="SectionName ms-2">Əlaqələr</div>
+                </a>
+                @*<a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3">
+            <div class="Icon"><i class="fas fa-volume-up"></i></div>
+            <div class="SectionName ms-2">Alert Jobs</div>
+        </a>*@
+                @*<a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3">
+            <div class="Icon"><i class="fab fa-weixin"></i></div>
+            <div class="SectionName ms-2">Messages</div>
+        </a>*@
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateEdit" asp-controller="account">
+                    <div class="Icon"><i class="fas fa-lock"></i></div>
+                    <div class="SectionName ms-2">Şifrəni yenilə</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none delete-profile-btn" asp-action="RemoveCandidate" asp-controller="account" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="far fa-trash-alt"></i></div>
+                    <div class="SectionName ms-2">Hesabı sil</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius me-2 py-3 text-decoration-none" asp-action="logout" asp-controller="account">
+                    <div class="Icon"><i class="fas fa-power-off"></i></div>
+                    <div class="SectionName ms-2">Çıxış</div>
+                </a>
+            </div>
+            <br />
+            <br />
+            @*<br />
+            <br />
+            <br />*@
+        </div>
+    </div>
+    <a asp-action="getapplies" asp-controller="candidate" asp-route-id="@Model.Id" class="dashboard"></a>
+</div>
+
+<style>
+    body {
+        font-size: 15px !important;
+        background-color: #f4f7fc;
+    }
+
+    .UserProfileItem {
+        padding-bottom: 5px;
+        padding-top: 5px;
+    }
+
+        .UserProfileItem:hover {
+            background-color: #f4f7fc;
+        }
+
+    .sidebar {
+        background: white;
+        color: white;
+        position: fixed;
+        width: 20%;
+        height: 100%;
+        left: 0;
+        overflow: auto;
+        display: block;
+        margin-top: -30px !important;
+        padding-top: 40px !important;
+    }
+
+    .main {
+        /*background: silver;*/
+        color: black;
+        width: 80%;
+        float: right;
+    }
+
+        .main p {
+            margin-bottom: 50px;
+        }
+
+    footer {
+        display: none;
+    }
+
+    .ImageAndUserName {
+        display: flex;
+    }
+</style>
+<script>
+    window.onload = function () {
+        var url = $(".dashboard").attr("href");
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+
+                var d = new Date();
+                var now = d.getUTCFullYear();
+                var nowYear = [];
+                var nowYear1 = [];
+                var nowYear2 = [];
+                var nowYear3 = [];
+                var nowYear4 = [];
+                var nowYear5 = [];
+                var nowYear6 = [];
+                var nowYear7 = [];
+                var nowYear8 = [];
+                var nowYear9 = [];
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].requestDate.slice(0, 4) == now) {
+                        nowYear.push(data[i]);
+                    }
+                    if (data[i].requestDate.slice(0, 4) == now - 1) {
+                        nowYear1.push(data[i]);
+                    }
+                    if (data[i].requestDate.slice(0, 4) == now - 2) {
+                        nowYear2.push(data[i]);
+                    }
+                    if (data[i].requestDate.slice(0, 4) == now - 3) {
+                        nowYear3.push(data[i]);
+                    }
+                    if (data[i].requestDate.slice(0, 4) == now - 4) {
+                        nowYear4.push(data[i]);
+                    }
+                    if (data[i].requestDate.slice(0, 4) == now - 5) {
+                        nowYear5.push(data[i]);
+                    }
+                    if (data[i].requestDate.slice(0, 4) == now - 6) {
+                        nowYear6.push(data[i]);
+                    }
+                    if (data[i].requestDate.slice(0, 4) == now - 7) {
+                        nowYear7.push(data[i]);
+                    }
+                    if (data[i].requestDate.slice(0, 4) == now - 8) {
+                        nowYear8.push(data[i]);
+                    }
+                    if (data[i].requestDate.slice(0, 4) == now - 9) {
+                        nowYear9.push(data[i]);
+                    }
+                }
+                var ortalama = Math.round((nowYear.length + nowYear1.length + nowYear2.length + nowYear3.length + nowYear4.length + nowYear5.length + nowYear6.length + nowYear7.length + nowYear8.length + nowYear9.length) / 10);
+                var chart = new CanvasJS.Chart("chartContainer", {
+                    animationEnabled: true,
+                    title: {
+                        text: "Müraciətlərinizin statistikası",
+                    },
+                    axisY: {
+                        title: "Müraciətlər",
+                        valueFormatString: "##",
+                        suffix: "",
+                        stripLines: [
+                            {
+                                value: ortalama,
+                                label: "Ortalama",
+                            },
+                        ],
+                    },
+                    data: [
+                        {
+                            yValueFormatString: "#### Müraciət",
+                            xValueFormatString: "YYYY",
+                            type: "splineArea",
+                            dataPoints: [
+                                { x: new Date(now - 9, 0), y: nowYear9.length },
+                                { x: new Date(now - 8, 0), y: nowYear8.length },
+                                { x: new Date(now - 7, 0), y: nowYear7.length },
+                                { x: new Date(now - 6, 0), y: nowYear6.length },
+                                { x: new Date(now - 5, 0), y: nowYear5.length },
+                                { x: new Date(now - 4, 0), y: nowYear4.length },
+                                { x: new Date(now - 3, 0), y: nowYear3.length },
+                                { x: new Date(now - 2, 0), y: nowYear2.length },
+                                { x: new Date(now - 1, 0), y: nowYear1.length },
+                                { x: new Date(now, 0), y: nowYear.length },
+                            ],
+                        },
+                    ],
+                });
+                chart.render();
+
+
+            });
+
+
+
+    };
+
+</script>

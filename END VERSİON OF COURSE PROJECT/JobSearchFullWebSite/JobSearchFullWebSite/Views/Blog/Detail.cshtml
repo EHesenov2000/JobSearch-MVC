@@ -1,0 +1,212 @@
+﻿@using JobSearchFullWebSite.ViewModels
+@model BlogDetailViewModel 
+@{
+    ViewData["Title"] = "Detail";
+}
+
+    <main>
+        <div class="
+          d-flex
+          flex-column
+          justify-content-center
+          align-items-center
+          text-center
+          py-5
+        ">
+            <h2><b>@Model.BlogItem.Title</b></h2>
+            <div class="d-flex flex-row text-center align-items-center grey DetailJob">
+                <div class="">
+                    <img src="https://secure.gravatar.com/avatar/87250bdf8483607f9d96cc0f31293e83?s=30&d=mm&r=g"
+                         alt=""
+                         style="width: 50px; height: 50px; border-radius: 50%" />
+                    <span class="grey">Admin paylaşdı</span>
+                </div>
+                <div class="d-flex flex-row align-items-center">
+                    <div class="border-radius mx-2"
+                         style="height: 5px; width: 5px; background-color: grey"></div>
+                    <span class="">@Model.BlogItem.CreatedAt.ToString("MM.dd.yyyy")</span>
+                </div>
+                <div class="d-flex flex-row align-items-center">
+                    <div class="border-radius mx-2"
+                         style="height: 5px; width: 5px; background-color: grey"></div>
+                    <span>@Model.BlogItem.Subject</span>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <img src="~/images/blogImage/@Model.BlogItem.FullImage"
+                 alt=""
+                 style="height: 500px; width: 100%" />
+        </div>
+        <div class="container my-5">
+            <div class="Description" style="max-width:100% !important;overflow-wrap:break-word">
+                @Html.Raw(Model.BlogItem.DescriptionTextEditor);
+            </div>
+            <div class="backColorBlue p-4 border-radius my-5">
+                <i>
+                    @Model.BlogItem.BackBlueTextHead
+                </i>
+                <p class="grey">@Model.BlogItem.BackBlueTextFoot</p>
+            </div>
+            @if (Model.BlogItem.BlogItemLearns != null)
+            {
+                <div class="WhatWillLearn">
+                    <h5><b>Nələri öyrənəcəksiz?</b></h5>
+                    <div class="row mt-4">
+                        @foreach (var item in Model.BlogItem.BlogItemLearns)
+                        {
+                            <div class="col-md-6 col-12">
+                                <p class="grey d-flex flex-row align-items-center">
+                                    <i class="fas fa-check-circle me-3"></i>
+                                    <span>@item.Learn </span>
+                                </p>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            }
+
+            <div class="containerImage my-5">
+                <img src="~/images/blogImage/@Model.BlogItem.ContainerImage"
+                     alt=""
+                     style="width: 100%; height: 500px" />
+            </div>
+            @if (Model.BlogItem.BlogItemRequirements!=null)
+	        {
+                <div class="Requirements">
+                    <h4><b>Tələblər</b></h4>
+                    <ul class="grey mt-3">
+                        @foreach (var item in Model.BlogItem.BlogItemRequirements)
+                        {
+                            <li type="circle">
+                                <p>
+                                    @item.Requirement
+                                </p>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+	        }
+            
+        </div>
+        <div class="container">
+            <div>
+                <hr />
+                <div class="py-4 d-flex flex-row align-items-center">
+                    <b class="">Paylaş</b>
+                    <div class="row ms-3">
+                        <div class="col-lg-4 col-md-6 col-12">
+                            <a href="https://facebook.com/" class="text-decoration-none">
+                                <button class="btn btn-primary d-flex flex-row align-items-center">
+                                    <i class="fab fa-facebook"></i>
+                                    <span class="white ms-2">Facebook</span>
+                                </button>
+                            </a>
+                       
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-12">
+                            <a href="http://twitter.com/" class="text-decoration-none">
+                                <button class="btn btn-secondary d-flex flex-row align-items-center">
+                                    <i class="fab fa-twitter"></i>
+                                    <span class="white ms-2">Twitter</span>
+                                </button>
+                            </a>
+           
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-12">
+                            <a href="https://www.pinterest.com/" class="text-decoration-none">
+                                <button class="btn btn-danger d-flex flex-row align-items-center">
+                                    <i class="fab fa-pinterest"></i>
+                                    <span class="white ms-2">Pinterest</span>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+            </div>
+            <br />
+            <br />
+        </div>
+        <br />
+        <br />
+        <div class="RecentNewArticles py-5 mt-5"
+             style="background-color: #ecedf2">
+            <div class="mx-3">
+                <div class="d-flex flex-column align-items-center justify-content-center">
+                    <h4><b>Yeni bloqlar</b></h4>
+                    <span class="grey">
+                        Vakansiyalarla əlaqəli bloqlar
+                    </span>
+                </div>
+                <div class="row mt-5" style="max-width:100%">
+                    @foreach (var item in Model.BlogItems)
+                    {
+                        <div class="col-lg-4 col-md-6 col-12">
+                            <div class="card p-3 BlogCard">
+                                <div class="BlogCardImage border-radius overflow-hidden">
+                                    <img src="~/images/blogImage/@item.ContainerImage"
+                                         alt=""
+                                         style="width: 100%; height: 200px" />
+                                </div>
+                                <div class="container mt-3">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-6 col-12 grey d-flex align-items-center"
+                                             style="font-size: 14px">
+                                           @item.CreatedAt.ToString("MM.dd.yyyy")
+                                        </div>
+                                        <div class="
+                        col-lg-4 col-md-6 col-12
+                        grey
+                        d-flex
+                        flex-row
+                        align-items-center
+                      "
+                                             style="font-size: 14px">
+                                            <div class="border-radius"
+                                                 style="height: 5px; width: 5px; background-color: grey"></div>
+                                            &nbsp;
+                                            @if (item.Subject.Length >= 18)
+                                            {
+                                                <span>@item.Subject.Substring(0, 18) ...</span>
+
+                                            }
+                                            else
+                                            {
+                                                <span>@item.Subject</span>
+                                            }
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <a href="" class="black">
+                                        <h5>
+                                            <b>@item.Title</b>
+                                        </h5>
+                                    </a>
+                                    <p class="grey">
+                                        @if (item.DescriptionTextEditor.ToString().Length >= 40)
+                                        {
+                                            @item.DescriptionTextEditor.ToString().Substring(3, 39)<span>...</span>
+                                        }
+                                        else
+                                        {
+                                            @item.DescriptionTextEditor.ToString()<span>...</span>
+                                        }
+                                    </p>
+                                    <br />
+                                    <a class="readMoreBottomLine text-decoration-none" asp-action="detail" asp-controller="blog" asp-route-id="@item.Id">Ətraflı ></a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+        </div>
+    </main>
+ 

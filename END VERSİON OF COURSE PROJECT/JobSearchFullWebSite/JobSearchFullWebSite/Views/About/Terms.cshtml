@@ -1,0 +1,45 @@
+﻿@using JobSearchFullWebSite.Models
+@model List<Term>
+@{
+    ViewData["Title"] = "Terms";
+}
+
+    <main>
+        <div class="
+          d-flex
+          flex-column
+          justify-content-center
+          align-items-center
+          backColorBlue
+          text-center
+          py-5
+        ">
+            <h2><b>Qaydalar</b></h2>
+            <div class="d-flex flex-row text-center">
+                <a asp-action="index" asp-controller="home" class="grey text-decoration-none">Əsas / </a>
+                <span> &nbsp;Qaydalar</span>
+            </div>
+        </div>
+        <div class="mt-5 mx-5">
+            <div class="container px-5">
+                <ul>
+                    @{
+                        int index = 0;
+                        @foreach (var item in Model)
+                        {
+                            index++;
+                            <p class="d-flex flex-row">
+                                <span><b class="fontSize14">@index.</b> &nbsp;<span>@item.SiteTerm</span></span>
+                                
+                            </p>
+                            <br />
+                        }
+                    }
+                </ul>
+
+
+            </div>
+
+        </div>
+    </main>
+  

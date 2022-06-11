@@ -1,0 +1,387 @@
+﻿@using JobSearchFullWebSite.ViewModels
+@using JobSearchFullWebSite.Enums
+@using System.ComponentModel
+@model JobListAndEmployerViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "GetJobs";
+}
+@{
+    int totalPage = (int)ViewBag.TotalPageCount;
+    int selectedPage = (int)ViewBag.SelectedPage;
+}
+
+<div class="cont">
+    <div class="main px-4">
+        <br />
+        <br />
+        <button class="showOn700 btn btn-primary" data-toggle="modal"
+                data-target="#myModal1">
+            <i class="fas fa-align-justify white"></i>&nbsp;&nbsp;&nbsp;<span class="white">Menyu</span>
+        </button>
+        <br />
+
+        <section class="
+          mt-5
+          d-flex
+          justify-content-center
+          align-content-center
+          flex-column
+          pb-5
+        ">
+            <div class="d-flex flex-column align-items-center mt-5">
+                <h2 class="mt-5"><b>Paylaşdığınız işlər </b></h2>
+            </div>
+            <div class="cards container mt-5">
+                <div class="d-flex flex-row">
+                    <form method="post">
+                        <div style="background-color:#cce4f7;" class="
+                    SearchIcon
+                    d-flex
+                    flex-row
+
+                    border-radius
+                    py-2
+                    px-2
+                  ">
+                            <button type="submit" class="border-0" style="background-color:#cce4f7;"><i class="fas fa-search d-flex flex-row align-items-center grey"></i></button>
+                            <input style="background-color:#cce4f7;" type="text" name="search" value="@ViewBag.Search"
+                                   placeholder="Axtarış.."
+                                   class="border-0  border-radius onclickBorderNone" />
+                        </div>
+
+                    </form>
+
+                </div>
+                <br />
+                <br />
+                @foreach (var item in Model.Jobs)
+                {
+                    <div class="
+
+              d-flex
+              flex-column
+              align-content-center
+              justify-content-center
+            ">
+                        <div class="card p-2 border-radius JobListCardShadow py-4 " style="background-color: #cce4f7">
+                            <div class="container flex-row JobListCard">
+                                <div class="JobListCardImage">
+                                    @if (item.JobImages.Count() != 0)
+                                    {
+                                        if (item.JobImages.FirstOrDefault(x => x.IsPoster) != null)
+                                        {
+                                            if (item.JobImages.FirstOrDefault(x => x.IsPoster).Image != null)
+                                            {
+                                                <img src="~/images/jobImage/@item.JobImages.FirstOrDefault(x=>x.IsPoster).Image"
+                                                     alt="" style="width:60px;height:60px" />
+
+                                            }
+                                            else
+                                            {
+                                                <img src="https://apusthemes.com/wp-demo/superio/wp-content/themes/superio/images/placeholder.png"
+                                                     alt="" style="width:60px;height:60px" />
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <img src="https://apusthemes.com/wp-demo/superio/wp-content/themes/superio/images/placeholder.png"
+                                                 alt="" style="width:60px;height:60px" />
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <img src="https://apusthemes.com/wp-demo/superio/wp-content/themes/superio/images/placeholder.png"
+                                             alt="" style="width:60px;height:60px" />
+                                    }
+
+                                </div>
+                                <div class="row ms-2 mt-2">
+                                    <div class="row">
+                                        <div class="col-sm-10 col-12 d-flex flex-row beCenter">
+                                            <div class="row">
+                                                <div class=" col-12 DisplayFlex flex-row align-items-center">
+                                                    <a class="text-decoration-none"><h5 class="center"><b>@item.Name</b></h5></a>
+                                                    &nbsp;
+                                                    &nbsp;
+                                                    <div>
+                                                        <a asp-action="edit" asp-controller="job" asp-route-jobId="@item.Id" class=""><button class="border-radius bg-success border-0 white mb-1">Yenilə</button></a>
+                                                        &nbsp;
+                                                        &nbsp;
+                                                        <a asp-action="getjobcontacts" asp-controller="employer" asp-route-id="@item.Id"><button class="btn btn-info mb-1">Əlaqələri</button></a>
+                                                        &nbsp;
+                                                        &nbsp;
+                                                        <a asp-action="getjobapplies" asp-controller="employer" asp-route-id="@item.Id"><button class="btn btn-primary mb-1">Müraciətlər</button></a>
+                                                        &nbsp;
+                                                        &nbsp;
+                                                        <a asp-action="deletejob" asp-controller="employer" asp-route-jobId="@item.Id" class="delete-job-btn"><button class="border-radius  border-0 btn-danger">Sil</button></a>
+                                                    </div>
+                                                </div>
+                                                @if (item.IsFeatured)
+                                                {
+                                                    <div class=" col-12 center">
+                                                        <span class="green ">Xüsusi</span>
+                                                    </div>
+                                                }
+
+                                            </div>
+                                        </div>
+                                        @*<div class="col-sm-2 col-12 d-flex flex-row beCenter">
+                                            @if (Model.Candidate != null)
+                                            {
+                                                <a asp-action="AddJobToShortlist" asp-controller="job" asp-route-jobId="@item.Id" asp-route-candidateId="@Model.Candidate.Id" class="text-decoration-none"><i class="far fa-bookmark"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <a asp-action="login" asp-controller="account" class="text-decoration-none"><i class="far fa-bookmark"></i></a>
+                                            }
+                                        </div>*@
+                                    </div>
+                                    <div class="row">
+                                        <div class="
+                        col-lg-4 col-md-6 col-12
+                        d-flex
+                        flex-row
+                        justify-content-center
+                        align-items-center
+                        grey
+                      ">
+                                            <i class="fas fa-briefcase me-2"></i>
+                                            <span>@item.JobCategory.Name</span>
+                                        </div>
+                                        <div class="
+                        col-lg-4 col-md-6 col-12
+                        d-flex
+                        flex-row
+                        justify-content-center
+                        align-items-center
+                        grey
+                      ">
+                                            <i class="fas fa-map-marker-alt me-2"></i>
+                                            <span>@item.City.CityName</span>
+                                        </div>
+                                        <div class="
+                        col-lg-4 col-md-6 col-12
+                        d-flex
+                        flex-row
+                        justify-content-center
+                        align-items-center
+                        grey
+                      ">
+                                            <i class="far fa-money-bill-alt me-2"></i>
+                                            @{
+                                                DescriptionAttribute b = (DescriptionAttribute)(((typeof(JobSalaryForTime)).GetField(item.OfferedSalaryForTime.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), true))[0];
+                                                <span>@item.OfferedMinSalary-@item.OfferedMaxSalary/@b.Description</span>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="row beCenter">
+                                        <div class="col-md-4 col-12" style="max-width:fit-content;">
+                                            <div class="
+                          border-radius
+                          px-2
+                          d-flex
+                          align-items-center
+                          justify-content-center
+                                                 mt-1
+                        "
+                                                 style="background-color: #dde8f8; color: #1967d2;">
+                                                @{
+                                                    DescriptionAttribute a = (DescriptionAttribute)(((typeof(JobType)).GetField(item.JobType.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), true))[0];
+                                                    <span>@a.Description</span>
+
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-12" style="max-width: fit-content;">
+                                            @if (item.IsUrgent)
+                                            {
+                                                <div class="
+                          border-radius
+                          px-2
+                          d-flex
+                          align-items-center
+                          justify-content-center
+                                                     mt-1
+                        "
+                                                     style="background-color: #fef2d9; color: #fbbb00;">
+                                                    <span>Təcili</span>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                }
+                @if (Model.Jobs.Count() == 10)
+                {
+                    <div class="d-flex justify-content-center w-100">
+                        <a asp-action="getjobs" asp-controller="employer" asp-route-page="@(ViewBag.SelectedPage<ViewBag.TotalPageCount?ViewBag.SelectedPage+1:ViewBag.TotalPageCount)" asp-route-search="@ViewBag.Search"><button class="btn btn-primary px-4">Daha çox</button></a>
+                    </div>
+                }
+
+
+            </div>
+        </section>
+        
+    </div>
+    <div class="sidebar ps-3">
+        <br />
+        <br />
+        <div class="">
+            <div class="ImageAndUserName flex-row">
+                <div class="UserImage d-flex align-items-center">
+                    @if (Model.Employer.EmployerImages.FirstOrDefault(x => x.IsPoster) != null && Model.Employer.EmployerImages.FirstOrDefault(x => x.IsPoster).Image != null)
+                    {
+                        <img src="~/images/employerImage/@Model.Employer.EmployerImages.FirstOrDefault(x=>x.IsPoster).Image"
+                             alt=""
+                             style="width: 60px; height: 60px; border-radius: 50%" />
+                    }
+                    else
+                    {
+                        <img src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g"
+                             alt=""
+                             style="width: 60px; height: 60px; border-radius: 50%" />
+                    }
+
+                </div>
+                <div class="
+                    d-flex
+                    flex-column
+                    ms-3
+                    align-items-center
+                    justify-content-center
+                  ">
+                    @if (Model.Employer != null && Model.Employer.Name != null)
+                    {
+                        <div class="UserName black"><b>@Model.Employer.Name</b></div>
+                    }
+                    else
+                    {
+                        <div class="UserName black"><b>@Model.Employer.AppUser.UserName</b></div>
+                    }
+                    @if (Model.Employer != null && Model.Employer.City != null)
+                    {
+                        <div class="UserCity black">@Model.Employer.City.CityName</div>
+                    }
+                    <div class="UserProfileButton">
+                        <a class="text-decoration-none " asp-action="detail" asp-controller="employer" asp-route-id="@Model.Employer.Id">
+                            <button class="btn btn-primary" style="font-size: 10px">
+                                Profilə bax
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="d-flex flex-column">
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="employerDashboard" asp-controller="employer" asp-route-id="@Model.Employer.Id">
+                    <div class="Icon"><i class="far fa-file-alt"></i></div>
+                    <div class="SectionName ms-2">Statistika</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="EmployerProileEdit" asp-controller="employer" asp-route-id="@Model.Employer.Id">
+                    <div class="Icon"><i class="far fa-user-circle"></i></div>
+                    <div class="SectionName ms-2">Profil</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="GetJobs" asp-controller="employer" asp-route-id="@Model.Employer.Id">
+                    <div class="Icon"><i class="fas fa-file-signature"></i></div>
+                    <div class="SectionName ms-2">İşləriniz</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="employerapplies" asp-controller="employer">
+                    <div class="Icon"><i class="fas fa-file-signature"></i></div>
+                    <div class="SectionName ms-2">Müraciətləriniz</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="GetFollowers" asp-controller="employer" asp-route-id="@Model.Employer.Id">
+                    <div class="Icon"><i class="fas fa-volume-up"></i></div>
+                    <div class="SectionName ms-2">İzləyicilər</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="SubmitJob" asp-controller="employer" asp-route-newId="@Model.Employer.Id">
+                    <div class="Icon"><i class="far fa-bookmark"></i></div>
+                    <div class="SectionName ms-2">İş yarat</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="GetContacts" asp-controller="employer">
+                    <div class="Icon"><i class="far fa-user"></i></div>
+                    <div class="SectionName ms-2">Əlaqələr</div>
+                </a>
+                @*<a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3">
+                        <div class="Icon"><i class="fas fa-volume-up"></i></div>
+                        <div class="SectionName ms-2">Alert Jobs</div>
+                    </a>
+                    <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3">
+                        <div class="Icon"><i class="fab fa-weixin"></i></div>
+                        <div class="SectionName ms-2">Messages</div>
+                    </a>*@
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="EmployerEdit" asp-controller="account">
+                    <div class="Icon"><i class="fas fa-lock"></i></div>
+                    <div class="SectionName ms-2">Şifrəni yenilə</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none delete-profile-btn" asp-action="RemoveEmployer" asp-controller="account" asp-route-id="@Model.Employer.Id">
+                    <div class="Icon"><i class="far fa-trash-alt"></i></div>
+                    <div class="SectionName ms-2">Hesabı sil</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius me-2 py-3 text-decoration-none" asp-action="logout" asp-controller="account">
+                    <div class="Icon"><i class="fas fa-power-off"></i></div>
+                    <div class="SectionName ms-2">Çıxış</div>
+                </a>
+            </div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        font-size: 15px !important;
+        background-color: #f4f7fc;
+    }
+
+    .UserProfileItem {
+        padding-bottom: 5px;
+        padding-top: 5px;
+    }
+
+        .UserProfileItem:hover {
+            background-color: #f4f7fc;
+        }
+
+    .sidebar {
+        background: white;
+        color: white;
+        position: fixed;
+        width: 20%;
+        height: 100%;
+        left: 0;
+        overflow: auto;
+        display: block;
+        margin-top: -30px !important;
+        padding-top: 40px !important;
+    }
+
+    .main {
+        /*background: silver;*/
+        color: black;
+        width: 80%;
+        float: right;
+    }
+
+        .main p {
+            margin-bottom: 50px;
+        }
+
+    footer {
+        display: none;
+    }
+
+    .ImageAndUserName {
+        display: flex;
+    }
+</style>

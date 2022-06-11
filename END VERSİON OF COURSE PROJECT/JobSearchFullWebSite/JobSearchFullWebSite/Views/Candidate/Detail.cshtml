@@ -1,0 +1,622 @@
+﻿@using JobSearchFullWebSite.Models
+@using JobSearchFullWebSite.Enums
+@using System.ComponentModel
+@using Microsoft.AspNetCore.Hosting
+@inject IWebHostEnvironment hostEnvironment
+@model Candidate
+
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<main>
+    <div class="container">
+        <div class="row g-3 py-5">
+            <div class="col-lg-8 col-12 d-flex flex-column">
+                @if (Model.FullName == null)
+                {
+                <h2>Melumat yoxdur</h2>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="d-flex forResponsive">
+                            @if (Model.CandidateImages.FirstOrDefault(x => x.IsPoster) != null && Model.CandidateImages.FirstOrDefault(x => x.IsPoster).Image != null)
+                            {
+                                <img src="~/images/candidateImage/@Model.CandidateImages.FirstOrDefault(x => x.IsPoster).Image"
+                                     alt=""
+                                     style="height: 100px; width: 100px; border-radius: 50%" />
+                            }
+                            else
+                            {
+                                <img src="https://apusthemes.com/wp-demo/superio/wp-content/themes/superio/images/placeholder.png"
+                                     alt=""
+                                     style="height: 100px; width: 100px; border-radius: 50%" />
+                            }
+
+                            <div class="Genaral d-flex flex-column ms-3 w-100 mb-4">
+                                <div class="d-flex flex-row">
+                                    <h4 class="me-3">
+                                        <b>@Model.FullName</b>
+                                    </h4>
+                                    @if (Model.IsFeatured)
+                                    {
+                                        <span class="d-flex align-items-center"
+                                              style="color: green">
+                                            Xüsusi
+                                        </span>
+                                    }
+
+                                </div>
+                                <div class="col-12 row">
+                                    <div class="
+                        grey
+                        col-lg-3 col-md-6 col-12
+                        d-flex
+                        flex-row
+                        align-items-center
+                      ">
+                                        @if (Model.Position != null)
+                                        {
+                                            <span style="color: blue">@Model.Position.PositionName</span>
+                                        }
+                                    </div>
+                                    <div class="
+                        grey
+                        col-lg-3 col-md-6 col-12
+                        d-flex
+                        flex-row
+                        align-items-center
+                      ">
+                                        <i class="bi bi-geo-alt"></i>
+                                        @if (Model.City != null)
+                                        {
+                                            <span>@Model.City.CityName</span>
+                                        }
+                                    </div>
+                                    <div class="
+                        grey
+                        col-lg-3 col-md-6 col-12
+                        d-flex
+                        flex-row
+                        align-items-center
+                      ">
+                                        <i class="far fa-money-bill-alt me-2"></i>
+                                        @{
+                                            if (Model.WaitingSalary != null && Model.SalaryForTime != null)
+                                            {
+                                                DescriptionAttribute b = (DescriptionAttribute)(((typeof(JobSalaryForTime)).GetField(Model.SalaryForTime.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), true))[0];
+                                                <span>@Model.WaitingSalary/ @b.Description</span>
+                                            }
+                                            else
+                                            {
+                                                <span></span>
+
+                                            }
+
+                                        }
+                                    </div>
+                                    <div class="
+                        grey
+                        col-lg-3 col-md-6 col-12
+                        d-flex
+                        flex-row
+                        align-items-center
+                      ">
+                                        <i class="far fa-clock ms-2"></i>
+                                        <span class="ms-1">@Model.CreatedAt.ToString("MM.dd.yyyy")</span>
+                                    </div>
+                                    <div class="OpenJobs pt-2 mb-3 d-flex flex-row">
+                                        @foreach (var item in Model.CandidateSkills)
+                                        {
+                                            <span class="px-3 d-flex align-items-center me-2 OpenJobsSpan"
+                                                  style="
+                          background-color: #dde8f8;
+                          border-radius: 20px;
+                          color: #7b64ac;
+                          font-size: 12px;
+                          max-width: 150px;
+                        ">
+                                                @item.Name
+                                            </span>
+                                        }
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+                    <div class="AboutCandidates row">
+                        @Html.Raw(Model.AboutCandidateTextEditor)
+                    </div>
+                    <br />
+
+                    <br />
+                    <br />
+                    <div class="Education">
+                        @if (Model.CandidateEducationItems.Count() != 0)
+                        {
+                            <h4><b>Təhsil</b></h4>
+                        }
+                        <br />
+                        @if (Model.CandidateEducationItems != null)
+                        {
+                            @foreach (var item in Model.CandidateEducationItems)
+                            {
+                                <div class="EducationItem d-flex flex-row">
+                                    <div class="d-flex align-items-center mt-3 justify-content-center"
+                                         style="
+                    background-color: #f9e0df;
+                    color: red;
+                    width: 40px;
+                    height: 30px;
+                    border-radius: 50%;
+                  ">
+                                        <span class="d-flex align-items-center justify-content-center"><b>@item.Title.ToString().Trim()[0]</b></span>
+                                    </div>
+                                    <div class="d-flex flex-column ms-3 my-3">
+                                        <div class="d-flex flex-row">
+                                            <b>@item.Title</b>
+                                            <span class="ms-2" style="color: red">@item.Years</span>
+                                        </div>
+                                        <div style="color: red">@item.EducationPlace</div>
+                                        <p class="grey">
+                                            @item.Content
+                                        </p>
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                        else
+                        {
+                            <div>Yoxdur</div>
+                        }
+
+                    </div>
+                    <br />
+                    <br />
+                    <div class="WorkExperience">
+                        @if (Model.CandidateWorkItems.Count() != 0)
+                        {
+                            <h4><b>İş & Təcrübə</b></h4>
+                        }
+                        @if (Model.CandidateWorkItems != null)
+                        {
+                            @foreach (var item in Model.CandidateWorkItems)
+                            {
+                                <div class="WorkExperienceItem d-flex flex-row">
+                                    <div class="d-flex align-items-center mt-3 justify-content-center"
+                                         style="
+                    background-color: #dde8f8;
+                    color: blue;
+                    width: 40px;
+                    height: 30px;
+                    border-radius: 50%;
+                  ">
+                                        <span class="d-flex align-items-center justify-content-center"><b>@item.Title.ToString().Trim()[0]</b></span>
+                                    </div>
+                                    <div class="d-flex flex-column ms-3 my-3">
+                                        <div class="d-flex flex-row">
+                                            <b>@item.Title</b>
+                                            <span class="ms-2" style="color: blue">@item.StartDate.ToString("MM.dd.yyyy")-@item.EndDate.ToString("MM.dd.yyyy")</span>
+                                        </div>
+                                        <div style="color: blue">@item.WorkPlace</div>
+                                        <p class="grey">
+                                            @item.Content
+                                        </p>
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                        else
+                        {
+                            <div>Yoxdur</div>
+                        }
+
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+                    @if (Model.CandidateImages != null)
+                    {
+                        <div class="Portfolio my-5">
+                            <h4><b>Əlaqəli şəkillər</b></h4>
+                            <div class="row mt-3 g-4">
+                                @foreach (var item in Model.CandidateImages)
+                                {
+                                    if (item.Image != null)
+                                    {
+                                        <div class="col-lg-4 col-sm-6 col-12">
+                                            <img src="~/images/candidateImage/@item.Image"
+                                                 alt=""
+                                                 style="width: 200px; height: 200px"
+                                                 class="border-radius border-0" />
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-lg-4 col-sm-6 col-12">
+                                            <img src="https://apusthemes.com/wp-demo/superio/wp-content/themes/superio/images/placeholder.png"
+                                                 alt=""
+                                                 style="width: 200px; height: 200px"
+                                                 class="border-radius border-0" />
+                                        </div>
+                                    }
+
+                                }
+
+                            </div>
+                        </div>
+                    }
+
+                    <div class="Awards">
+                        @if (Model.CandidateAwardItems.Count() != 0)
+                        {
+                            <h4><b>Nailiyyətlər</b></h4>
+                        }
+                        @if (Model.CandidateAwardItems != null)
+                        {
+                            @foreach (var item in Model.CandidateAwardItems)
+                            {
+                                <div class="AwardsItem d-flex flex-row">
+                                    <div class="d-flex align-items-center mt-3 justify-content-center"
+                                         style="
+                    background-color: #fef2d9;
+                    color: #f9ab00;
+                    width: 40px;
+                    height: 30px;
+                    border-radius: 50%;
+                  ">
+                                        <span class="d-flex align-items-center justify-content-center"><b>@item.Title.ToString().Trim()[0]</b></span>
+                                    </div>
+                                    <div class="d-flex flex-column ms-3 my-3">
+                                        <div class="d-flex flex-row">
+                                            <b>@item.Title</b>
+                                            <span class="ms-2" style="color: #f9ab00">@item.Years</span>
+                                        </div>
+                                        <p class="grey">
+                                            @item.Content
+                                        </p>
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                        else
+                        {
+                            <div>Yoxdur</div>
+                        }
+
+                    </div>
+                    <br />
+                    <br />
+                }
+
+            </div>
+            <div class="col-lg-4 col-12">
+                <div class="d-flex">
+                    @if (Model.CandidateCVs.Count() != 0)
+                    {
+                        <a href="~/CVs/@Model.CandidateCVs[Model.CandidateCVs.Count()-1].CVName" download="CV" class="w-100"><button class="btn btn-primary w-100 py-2"> CV yüklə</button></a>
+                    }
+                    @{
+
+                        //if (System.IO.File.Exists(filePath))
+                        {
+                            //web.DownloadFile(new Uri(filePath), Model.CandidateCVs[0].CVName);
+                        }
+                    }
+                    @*<a href="#" download="">yukle</a>*@
+                    @*<div class="
+                          border-radius
+                          backColorBlue
+                          d-flex
+                          justify-content-center
+                          align-items-center
+                          ms-3
+                        "
+                                     style="width: 50px; height: 50px; color: blue">
+                                    <i class="fas fa bi-bookmark"></i>
+                                </div>*@
+                </div>
+                <br />
+                <br />
+                <div class="backColorBlue border-radius p-4 d-flex flex-column">
+                    <div class="d-flex flex-row">
+                        <div class="CandidateInfoIcon" style="color: blue">
+                            <i class="far fa-money-bill-alt" style="font-size: 20px"></i>
+                        </div>
+                        <div class="d-flex flex-column ms-3">
+                            <div><b>Əməkhaqqı</b></div>
+                            @{if (Model != null)
+                                {
+                                    if (Model.WaitingSalary != null && Model.SalaryForTime != null)
+                                    {
+                                        DescriptionAttribute c = (DescriptionAttribute)(((typeof(JobSalaryForTime)).GetField(Model.SalaryForTime.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), true))[0];
+                                        <div class="grey"> @Model.WaitingSalary/@c.Description</div>
+                                    }
+                                }
+
+                            }
+                        </div>
+                    </div>
+                    <br />
+                    <div class="d-flex flex-row">
+                        <div class="CandidateInfoIcon" style="color: blue">
+                            <i class="far fa-calendar" style="font-size: 20px"></i>
+                        </div>
+                        <div class="d-flex flex-column ms-3">
+                            <div><b>Təcrübə</b></div>
+                            @{
+                                if (Model != null)
+                                {
+                                    if (Model.Experience != null)
+                                    {
+                                        DescriptionAttribute d = (DescriptionAttribute)(((typeof(RequiredExperience)).GetField(Model.Experience.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), true))[0];
+                                        <div class="grey">@d.Description</div>
+                                    }
+                                }
+
+                            }
+                        </div>
+                    </div>
+                    <br />
+                    <div class="d-flex flex-row">
+                        <div class="CandidateInfoIcon" style="color: blue">
+                            <i class="far fa-user" style="font-size: 20px"></i>
+                        </div>
+                        <div class="d-flex flex-column ms-3">
+                            <div><b>Cinsi</b></div>
+                            @{
+                                if (Model != null)
+                                {
+                                    if (Model.Gender != null)
+                                    {
+                                        DescriptionAttribute e = (DescriptionAttribute)(((typeof(Gender)).GetField(Model.Gender.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), true))[0];
+                                        <div class="grey">@e.Description</div>
+                                    }
+                                }
+
+                            }
+                        </div>
+                    </div>
+                    <br />
+                    <div class="d-flex flex-row">
+                        <div class="CandidateInfoIcon" style="color: blue">
+                            <i class="fas fa-hourglass-half" style="font-size: 20px"></i>
+                        </div>
+                        <div class="d-flex flex-column ms-3">
+                            <div><b>Yaşı</b></div>
+                            <div class="grey">@Model.Age</div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="d-flex flex-row">
+                        <div class="CandidateInfoIcon" style="color: blue">
+                            <i class="fab fa-acquisitions-incorporated"
+                               style="font-size: 20px"></i>
+                        </div>
+                        <div class="d-flex flex-column ms-3">
+                            <div><b>Dərəcəsi</b></div>
+                            @{
+                                if (Model != null)
+                                {
+                                    if (Model.Qualification != null)
+                                    {
+                                        DescriptionAttribute f = (DescriptionAttribute)(((typeof(Qualification)).GetField(Model.Qualification.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), true))[0];
+                                        <div class="grey">@f.Description</div>
+                                    }
+                                }
+
+                            }
+                        </div>
+                    </div>
+                    <br />
+                    <div class="d-flex flex-row">
+                        <div class="CandidateInfoIcon" style="color: blue">
+                            <i class="fas fa-language" style="font-size: 20px"></i>
+                        </div>
+                        <div class="d-flex flex-column ms-3">
+                            <div><b>Bildiyi dillər</b></div>
+                            <div class="grey">
+                                @if (Model.KnowingLanguages.Count() != 0)
+                                {
+                                    @for (int i = 0; i < Model.KnowingLanguages.Count(); i++)
+                                    {
+                                        if (i == Model.KnowingLanguages.Count() - 1)
+                                        {
+                                            <span>@Model.KnowingLanguages[i].Language.Name</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@Model.KnowingLanguages[i].Language.Name,</span>
+                                        }
+
+                                    }
+
+                                }
+                                else
+                                {
+                                    <span>Yoxdur</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="d-flex flex-row">
+                        <div class="CandidateInfoIcon" style="color: blue">
+                            <i class="fas fa-envelope" style="font-size: 20px"></i>
+                        </div>
+                        <div class="d-flex flex-column ms-3">
+                            <div><b>E-mail</b></div>
+                            <div class="grey">@Model.Email</div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="d-flex flex-row">
+                        <div class="CandidateInfoIcon" style="color: blue">
+                            <i class="fas fa-phone-alt" style="font-size: 20px"></i>
+                        </div>
+                        <div class="d-flex flex-column ms-3">
+                            <div><b>Əlaqə nömrəsi</b></div>
+                            <div class="grey">@Model.PhoneNumber</div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="d-flex backColorBlue border-radius p-4 flex-row">
+                    <div class="
+                  d-flex
+                  flex-row
+                  justify-content-start
+                  align-items-center
+                  w-100
+                ">
+                        <b>Sosial şəbəkələr: </b>
+                    </div>
+                    <div class="
+                  d-flex
+                  flex-row
+                  justify-content-end
+                  align-items-center
+                  w-100
+                  grey
+                ">
+                        @if (Model.FacebookUrl != null)
+                        {
+                            <a href="@Model.FacebookUrl">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                        }
+                        @if (Model.TwitterUrl != null)
+                        {
+                            <a href="@Model.TwitterUrl">
+                                <i class="fab fa-twitter mx-3"></i>
+                            </a>
+                        }
+                        @if (Model.LinkedinUrl != null)
+                        {
+                            <a href="@Model.LinkedinUrl">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        }
+                        @if (Model.InstagramUrl != null)
+                        {
+                            <a href="@Model.InstagramUrl">
+                                <i class="fab fa-instagram ms-3"></i>
+                            </a>
+                        }
+
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="d-flex backColorBlue border-radius p-4 flex-column">
+                    <h6><b>Biliklər</b></h6>
+                    <br />
+                    <div class="d-flex flex-row">
+                        @foreach (var item in Model.CandidateSkills)
+                        {
+                            <div class="border-radius grey px-3 Skill me-3"
+                                 style="background-color: white">
+                                <span>@item.Name</span>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="d-flex backColorBlue border-radius p-4 flex-column">
+                    <h6><b>CV</b></h6>
+                    @if (Model.CandidateCVs.Count > 0)
+                    {
+                        foreach (var item in Model.CandidateCVs)
+                        {
+                            <div class="p-3 d-flex flex-row border-radius CV"
+                                 style="background-color: #d4e1f5">
+                                <div class="d-flex flex-column">
+                                    <div class="CVName blue">@(item.Candidate.FullName!=null?item.Candidate.FullName:item.Candidate.AppUser.UserName)</div>
+                                    <div class="CVExtension blue">PDF</div>
+                                </div>
+                                <div class="
+                    CVIcon
+                    blue
+                    d-flex
+                    flex-row
+                    justify-content-end
+                    align-items-center
+                    w-100
+                  ">
+                                    <i class="far fa-file-alt" style="font-size: 30px"></i>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div>Yoxdur</div>
+                    }
+
+                </div>
+                <br />
+                <br />
+                <div>
+                    <div class="card p-3 border-0 mb-5 py-5"
+                         style="background-color: #f5f7fc">
+                        <h4><b> @Model.FullName ilə əlaqə</b></h4>
+                        <br />
+                        <form asp-action="NewContact" asp-controller="candidate" class="w-100" enctype="multipart/form-data" method="post">
+                            <input type="text" name="Subject"
+                                   class="w-100 border-radius py-3 border-0 ps-3 onclickBorderNone"
+                                   placeholder="Mövzu" />
+                            <span asp-validation-for="@Model.CandidateContacts[0].Subject"></span>
+                            <br />
+                            <br />
+                            <input type="hidden" name="CandidateId" value="@Model.Id" />
+                            <input type="email" name="Email"
+                                   class="w-100 border-radius py-3 border-0 ps-3 onclickBorderNone"
+                                   placeholder="E-mail" />
+                            <span asp-validation-for="@Model.CandidateContacts[0].Email"></span>
+                            <br />
+                            <br />
+                            <input type="text" name="PhoneNumber"
+                                   class="w-100 border-radius py-3 border-0 ps-3 onclickBorderNone"
+                                   placeholder="Əlaqə nömrəsi" />
+                            <span asp-validation-for="@Model.CandidateContacts[0].PhoneNumber"></span>
+                            <br />
+                            <br />
+                            <textarea class="border-0 border-radius ps-3 pt-3 onclickBorderNone"
+                                      name="Message"
+                                      rows="10"
+                                      style="
+                      height: 150px !important;
+                      max-height: 150px !important;
+                      min-height: 150px !important;
+                      width: 100%;
+                    "
+                                      placeholder="Mesajı daxil edin"></textarea>
+                            <span asp-validation-for="@Model.CandidateContacts[0].Message"></span>
+                            <br />
+                            <br />
+                            <button type="submit"
+                                    class="btn btn-primary w-100 border-radius py-3">
+                                Göndər
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

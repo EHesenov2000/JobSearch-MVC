@@ -1,0 +1,366 @@
+﻿@using JobSearchFullWebSite.DTOs
+@using JobSearchFullWebSite.Enums
+@model CandidateEditDto
+@{
+    ViewData["Title"] = "CandidateProfileEdit";
+}
+
+<style>
+    p {
+        margin-bottom: 5px !important;
+    }
+</style>
+<div class="cont">
+    <div class="main px-4">
+        <br />
+        <br />
+        <button class="showOn700 btn btn-primary" data-toggle="modal"
+                data-target="#myModal1">
+            <i class="fas fa-align-justify white"></i>&nbsp;&nbsp;&nbsp;<span class="white">Menyu</span>
+        </button>
+        <form method="post" enctype="multipart/form-data" class="ms-3">
+
+            <br />
+            <br />
+            <div class="d-flex flex-row justify-content-center align-items-center">
+                <h2><b>Profil məlumatlarınızı yeniləyin </b></h2>
+
+            </div>
+            <div class="card p-4 mt-4">
+                <b>Profil</b>
+                <div class="row mt-3">
+                    <div class="col-lg-6 col-12">
+                        <div class="row">
+                            <div class="col-md-2 col-12 d-flex flex-row align-items-center ImageAndUpload">
+                                @if (Model != null && Model.Image != null)
+                                {
+                                    <img src="~/images/candidateImage/@Model.Image"
+                                         alt=""
+                                         style="height: 60px; width: 60px"
+                                         class="border-radius" />
+                                    <input type="hidden" value="@Model.Image" name="Image" class="HiddenInputImage" />
+                                    <div class="ImageXIcon backColorBlue  border-radius p-2  align-items-center justify-content-center" style="width: 20px;height: 20px;"><i class="fas fa-times blue"></i></div>
+
+                                }
+                                else
+                                {
+                                    <img src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g"
+                                         alt=""
+                                         style="height: 60px; width: 60px"
+                                         class="border-radius" />
+                                }
+                                @*else
+                                {
+                                    <div>Sekil yukle</div>
+                                }*@
+
+
+                            </div>
+                            <dv class="col-md-4 col-12 d-flex flex-row align-items-center mt-2">
+                                @*<input type="file" id="file" asp-for="@Model.File "/>
+                                <label for="file" asp-for="@Model.File " class=" backColorBlue"><span class="blue">Browse</span> </label>*@
+                                <input class="form-control col-md-2 " id="file" type="file" asp-for="@Model.File" style="display:contents;">
+                                <label for="file" class=" backColorBlue"><span class="blue">Şəkil yüklə</span></label>
+                        </div>
+                        <div class="d-flex flex-column mt-4">
+                            <label asp-for="@Model.FullName">Ad, soyad</label>
+                            <input type="text" class="border-0 backColorBlue border-radius py-2 px-2" placeholder="Ad, soyad.." asp-for="@Model.FullName">
+                            <span asp-validation-for="@Model.FullName" class="text-danger"></span>
+                            <br>
+                            <label asp-for="@Model.Gender">Cins</label>
+                            <select class="border-radius border-0 backColorBlue py-2 px-2" asp-for="@Model.Gender" asp-items="Html.GetEnumSelectList<Gender>()">
+                            </select>
+                            <span asp-validation-for="@Model.Gender" class="text-danger"></span>
+                            <br>
+                            <label asp-for="@Model.PhoneNumber">Əlaqə nömrəsi</label>
+                            <input type="text" class="border-0 backColorBlue border-radius py-2 px-2" placeholder="Əlaqə nömrəsi" asp-for="@Model.PhoneNumber">
+                            <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+                            <br>
+                            <label asp-for="@Model.Qualification">Dərəcə</label>
+                            <select class="border-radius border-0 backColorBlue py-2 px-2" asp-for="@Model.Qualification" asp-items="Html.GetEnumSelectList<Qualification>()">
+                            </select>
+                            <span asp-validation-for="@Model.Qualification " class="text-danger"></span>
+                            <br>
+                            <label asp-for="@Model.KnowingLanguageIds">Dillər</label>
+                            @*<select class="form-control" asp-for="@Model.KnowingLanguageIds" asp-items="@(new SelectList(ViewBag.Languages,"Id","Name"))">
+                            </select>*@
+                            <select class="form-control" asp-for="@Model.KnowingLanguageIds">
+                                @if (Model != null)
+                                {
+                                    @if (ViewBag.Languages != null)
+                                    {
+                                        @foreach (var item in ViewBag.Languages)
+                                        {
+                                            if (Model.KnowingLanguages.Any(x => x.LanguageId == item.Id))
+                                            {
+                                                <option selected value="@item.Id">@item.Name</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        }
+                                    }
+
+                                }
+                                else
+                                {
+                                    @if (ViewBag.Languages != null)
+                                    {
+                                        @foreach (var item in ViewBag.Languages)
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                    }
+                                }
+
+                            </select>
+                            <span asp-validation-for="@Model.KnowingLanguageIds" class="text-danger"></span>
+                            <br>
+                            <label asp-for="@Model.WaitingSalary">Əməkhaqqı</label>
+                            <input type="number" class="border-0 backColorBlue border-radius py-2 px-2" placeholder="Əməkhaqqı gözləntisi" asp-for="@Model.WaitingSalary">
+                            <span asp-validation-for="@Model.WaitingSalary" class="text-danger"></span>
+                            <br>
+
+                        </div>
+
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        <div class="d-flex flex-column">
+                            <label asp-for="@Model.BirthdayDate">Doğum tarixi</label>
+                            <input type="date" class="border-0 backColorBlue border-radius py-2 px-2" asp-for="@Model.BirthdayDate">
+                            <span asp-validation-for="@Model.BirthdayDate" class="text-danger"></span>
+                            <br>
+                            <label asp-for="@Model.Age">Yaş</label>
+                            <input type="number" class="border-0 backColorBlue border-radius py-2 px-2" placeholder="Yaş" asp-for="@Model.Age">
+                            <span asp-validation-for="@Model.Age" class="text-danger"></span>
+                            <br>
+                            <label asp-for="@Model.Email">Email</label>
+                            <input type="email" class="border-0 backColorBlue border-radius py-2 px-2" placeholder="E-mail" asp-for="@Model.Email">
+                            <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                            <br>
+                            <label asp-for="@Model.Experience">Təcrübə</label>
+                            <select class="border-radius border-0 backColorBlue py-2 px-2" class="border-0 backColorBlue border-radius py-2 px-2" placeholder="Təcrübə" asp-for="@Model.Experience" asp-items="Html.GetEnumSelectList<RequiredExperience>()">
+                            </select>
+                            <span asp-validation-for="@Model.Experience" class="text-danger"></span>
+                            <br>
+                            <label asp-for="@Model.SalaryForTime"> Əməkhaqqı müddəti</label>
+                            <select class="border-radius border-0 backColorBlue py-2 px-2" class="border-0 backColorBlue border-radius py-2 px-2" placeholder="Salary for time" asp-for="@Model.SalaryForTime" asp-items="Html.GetEnumSelectList<JobSalaryForTime>()">
+                            </select>
+                            <span asp-validation-for="@Model.SalaryForTime" class="text-danger"></span>
+                            <br>
+                            <label asp-for="@Model.PositionId">Kateqoriya</label>
+                            <select class="border-radius border-0 backColorBlue py-2 px-2" asp-for="@Model.PositionId" asp-items="@(new SelectList(ViewBag.Positions,"Id","PositionName"))">
+                                <option class="" selected disabled>Kateqoriya seç</option>
+                            </select>
+                            <span asp-validation-for="@Model.PositionId" class="text-danger"></span>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex flex-column">
+                            <label>Ətraflı məlumat</label>
+                            <textarea asp-for="@Model.AboutCandidateTextEditor">
+                                </textarea>
+                            <span class="text-danger" asp-validation-for="@Model.AboutCandidateTextEditor"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card p-4 mt-4">
+                <b>Sosial şəbəkələr</b>
+                <div class="d-flex flex-column mt-4">
+                    <label asp-for="@Model.FacebookUrl">Facebook linki</label>
+                    <input type="text" class="border-0 backColorBlue border-radius py-2 px-2" placeholder="Facebook" asp-for="@Model.FacebookUrl">
+                    <span asp-validation-for="@Model.FacebookUrl" class="text-danger"></span>
+                    <br>
+                    <label asp-for="@Model.TwitterUrl">Twitter linki</label>
+                    <input type="text" class="border-0 backColorBlue border-radius py-2 px-2" placeholder="Twitter" asp-for="@Model.TwitterUrl">
+                    <span asp-validation-for="@Model.TwitterUrl" class="text-danger"></span>
+                    <br>
+                    <label asp-for="@Model.LinkedinUrl">Linkedin linki</label>
+                    <input type="text" class="border-0 backColorBlue border-radius py-2 px-2" placeholder="Linkedin" asp-for="@Model.LinkedinUrl">
+                    <span asp-validation-for="@Model.LinkedinUrl" class="text-danger"></span>
+                    <br>
+                    <label asp-for="@Model.InstagramUrl">Instagram linki</label>
+                    <input type="text" class="border-0 backColorBlue border-radius py-2 px-2" placeholder="Instagram" asp-for="@Model.InstagramUrl">
+                    <span asp-validation-for="@Model.InstagramUrl" class="text-danger"></span>
+                    <br>
+                </div>
+            </div>
+            <div class="card p-4 mt-4">
+                <b>Məkan</b>
+                <div class="d-flex flex-column mt-4">
+                    <label asp-for="@Model.CityId">Şəhər</label>
+                    <select class="border-radius border-0 backColorBlue py-2 px-2" asp-for="@Model.CityId" asp-items="@(new SelectList(ViewBag.Cities,"Id","CityName"))">
+                        <option class="" selected disabled value="">Şəhər seç</option>
+                    </select>
+                    <span asp-validation-for="@Model.CityId" class="text-danger"></span>
+                </div>
+                <br>
+            </div>
+            <br />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <br>
+            <button type="submit" class="btn btn-primary">Yadda saxla</button>
+        </form>
+    </div>
+    <div class="sidebar ps-3">
+        <br />
+        <br />
+        <div class="">
+            <div class="ImageAndUserName flex-row">
+                <div class="UserImage d-flex align-items-center">
+                    @if (Model!=null && Model.Image != null)
+                    {
+                        <img src="~/images/candidateImage/@Model.Image"
+                             alt=""
+                             style="width: 60px; height: 60px; border-radius: 50%" />
+                    }
+                    else
+                    {
+                        <img src="https://secure.gravatar.com/avatar/70bb49755b38874fc6ef1a6cc91118d7?s=80&d=mm&r=g"
+                             alt=""
+                             style="width: 60px; height: 60px; border-radius: 50%" />
+                    }
+
+                </div>
+                <div class="
+                    d-flex
+                    flex-column
+                    ms-3
+                    align-items-center
+                    justify-content-center
+                  ">
+                    @if (Model != null && Model.FullName != null)
+                    {
+                        <div class="UserName black"><b>@Model.FullName</b></div>
+                    }
+                    @if (Model != null && Model.City != null)
+                    {
+                        <div class="UserCity black">@Model.City.CityName</div>
+                    }                    <div class="UserProfileButton">
+                        <a class="text-decoration-none " asp-action="detail" asp-controller="candidate" asp-route-id="@Model.Id">
+                            <button class="btn btn-primary" style="font-size: 10px">
+                                Profilə bax
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="d-flex flex-column">
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateDashboard" asp-controller="candidate" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="far fa-file-alt"></i></div>
+                    <div class="SectionName ms-2">Statistika</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateProfileEdit" asp-controller="candidate" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="far fa-user-circle"></i></div>
+                    <div class="SectionName ms-2">Profil</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateResumeEdit" asp-controller="candidate" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="fas fa-file-signature"></i></div>
+                    <div class="SectionName ms-2">CV-im</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateApplieds" asp-controller="candidate" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="fas fa-volume-up"></i></div>
+                    <div class="SectionName ms-2">Müraciətlərim</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateShortList" asp-controller="candidate" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="far fa-bookmark"></i></div>
+                    <div class="SectionName ms-2">Sonra baxılacaqlar</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateFollowings" asp-controller="candidate" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="far fa-user"></i></div>
+                    <div class="SectionName ms-2">İzlədiklərim</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="getcontacts" asp-controller="candidate">
+                    <div class="Icon"><i class="far fa-user"></i></div>
+                    <div class="SectionName ms-2">Əlaqələr</div>
+                </a>
+                @*<a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3">
+            <div class="Icon"><i class="fas fa-volume-up"></i></div>
+            <div class="SectionName ms-2">Alert Jobs</div>
+        </a>
+        <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3">
+            <div class="Icon"><i class="fab fa-weixin"></i></div>
+            <div class="SectionName ms-2">Messages</div>
+        </a>*@
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none" asp-action="CandidateEdit" asp-controller="account">
+                    <div class="Icon"><i class="fas fa-lock"></i></div>
+                    <div class="SectionName ms-2">Şifrəni yenilə</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius  me-2 py-3 text-decoration-none delete-profile-btn" asp-action="RemoveCandidate" asp-controller="account" asp-route-id="@Model.Id">
+                    <div class="Icon"><i class="far fa-trash-alt"></i></div>
+                    <div class="SectionName ms-2">Hesabı sil</div>
+                </a>
+                <a class="d-flex mt-2 UserProfileItem px-4 border-radius me-2 py-3 text-decoration-none" asp-action="logout" asp-controller="account">
+                    <div class="Icon"><i class="fas fa-power-off"></i></div>
+                    <div class="SectionName ms-2">Çıxış</div>
+                </a>
+            </div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+        </div>
+    </div>
+</div>
+<style>
+    body {
+        font-size: 15px !important;
+        background-color: #f4f7fc;
+    }
+
+    .UserProfileItem {
+        padding-bottom: 5px;
+        padding-top: 5px;
+    }
+
+        .UserProfileItem:hover {
+            background-color: #f4f7fc;
+        }
+
+    .sidebar {
+        background: white;
+        color: white;
+        position: fixed;
+        width: 20%;
+        height: 100%;
+        left: 0;
+        overflow: auto;
+        display: block;
+        margin-top: -30px !important;
+        padding-top: 40px !important;
+    }
+
+    .main {
+        /*background: silver;*/
+        color: black;
+        width: 80%;
+        float: right;
+    }
+
+        .main p {
+            margin-bottom: 50px;
+        }
+
+    footer {
+        display: none;
+    }
+
+    .ImageAndUserName {
+        display: flex;
+    }
+</style>
+
+
+
+
+    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+    <script>
+        // Replace the <textarea id="editor1"> with a CKEditor 4
+        // instance, using default configuration.
+        CKEDITOR.replace('AboutCandidateTextEditor');
+    </script>

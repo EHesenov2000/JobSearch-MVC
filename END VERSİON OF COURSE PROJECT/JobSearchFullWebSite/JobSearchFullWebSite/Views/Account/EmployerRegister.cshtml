@@ -1,0 +1,109 @@
+﻿@using JobSearchFullWebSite.ViewModels
+@model EmployerRegisterModel
+@{
+    ViewData["Title"] = "EmployerRegister";
+}
+
+
+
+
+
+<main>
+    <div class="container mt-5">
+        <div class="d-flex flex-column align-items-center justify-content-center">
+            <h4><b>İşə götürənlər üçün qeydiyyat</b></h4>
+            <form class="d-flex flex-column w-50" asp-action="employerregister" asp-controller="account" method="post">
+                <br />
+                <div class=" d-flex flex-row justify-content-center">
+                    <div class="
+                  col-md-6 col-12
+                  AccountCreatingType
+                  border-radius
+                  py-2
+                  d-flex
+                  flex-row
+                  align-items-center
+                  justify-content-center
+                  w-25
+                         hoover
+                         backColorBlue
+                ">
+                        <a asp-action="candidateregister" asp-controller="account" class="text-decoration-none w-100 h-100  d-flex justify-content-center align-items-center flex-row">
+                            <i class="far fa-user"></i>
+                            <span class="ms-2">İş axtaran</span>
+                        </a>
+
+                    </div>
+                    <div class="
+                  ms-2
+                  col-md-6 col-12
+                  AccountCreatingType
+                  border-radius
+                  py-3
+                  d-flex
+                  flex-row
+                  align-items-center
+                  justify-content-center
+                  w-25
+                         aHoverNone
+                " style="background-color:green;">
+                        <a asp-action="employerregister" asp-controller="account" class="text-decoration-none w-100 h-100 d-flex justify-content-center align-items-center flex-row white">
+                            <i class="fas fa-briefcase"></i>
+                            <span class="ms-2">İşə götürən</span>
+                        </a>
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+                <br />
+
+                <label asp-for="@Model.UserName">İstifadəçi adı</label>
+                <input asp-for="@Model.UserName"
+                       class="backColorBlue border-radius border-0 p-3"
+                       placeholder="İstifadəçi adı və ya email" />
+                <span class="text-danger" asp-validation-for="@Model.UserName"></span>
+                <br />
+                <br />
+                <label asp-for="@Model.Password">Şifrə</label>
+                <input type="password" asp-for="@Model.Password"
+                       class="backColorBlue border-radius border-0 p-3"
+                       placeholder="Şifrə" />
+                <span class="text-danger" asp-validation-for="@Model.Password"></span>
+                <br />
+                <br />
+                <label asp-for="@Model.ConfirmedPassword">Şifrəni təsdiqlə</label>
+                <input type="password" asp-for="@Model.ConfirmedPassword"
+                       class="backColorBlue border-radius border-0 p-3"
+                       placeholder="Şifrə" />
+                <span class="text-danger" asp-validation-for="@Model.ConfirmedPassword"></span>
+                <br />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <br />
+                <div class="">
+                    <button class="btn btn-primary mt-3 py-2" type="submit">Qeydiyyatdan keç</button>
+                </div>
+                <br />
+                <div class="d-flex justify-content-center flex-row"><span class="grey">Artıq hesabınız var? </span>&nbsp;&nbsp;<a asp-action="login" asp-controller="account" class="text-decoration-none">Giriş edin</a></div>
+            </form>
+            <br />
+            <br />
+            <br />
+            <br />
+        </div>
+    </div>
+</main>
+
+
+

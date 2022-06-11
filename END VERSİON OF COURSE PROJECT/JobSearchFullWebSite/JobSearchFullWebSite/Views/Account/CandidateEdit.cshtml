@@ -1,0 +1,51 @@
+﻿@using JobSearchFullWebSite.ViewModels
+@model CandidateEditModel
+@{
+    ViewData["Title"] = "CandidateEdit";
+}
+
+
+<main>
+    <div class="container mt-5">
+        <div class="d-flex flex-column align-items-center justify-content-center">
+            <h4><b>Hesab məlumatlarını yenilə</b></h4>
+            <form class="d-flex flex-column w-50" asp-action="candidateedit" asp-controller="account" method="post">
+
+                <label asp-for="@Model.UserName">İstifadəçi adı</label>
+                <input asp-for="@Model.UserName"
+                       class="backColorBlue border-radius border-0 p-3"
+                       placeholder="İstifadəçi adı və ya email" />
+                <span class="text-danger" asp-validation-for="@Model.UserName"></span>
+                <br />
+                <label asp-for="@Model.CurrentPassword">Əvvəlki şifrə</label>
+                <input type="password" asp-for="@Model.CurrentPassword"
+                       class="backColorBlue border-radius border-0 p-3"
+                       placeholder="Şifrə" />
+                <span class="text-danger" asp-validation-for="@Model.CurrentPassword"></span>
+                <br />
+                <label asp-for="@Model.Password">Yeni şifrə</label>
+                <input type="password" asp-for="@Model.Password"
+                       class="backColorBlue border-radius border-0 p-3"
+                       placeholder="Şifrə" />
+                <span class="text-danger" asp-validation-for="@Model.Password"></span>
+                <br />
+                <br />
+                <label asp-for="@Model.ConfirmedPassword"> Yeni şifrənin təkrarı</label>
+                <input type="password" asp-for="@Model.ConfirmedPassword"
+                       class="backColorBlue border-radius border-0 p-3"
+                       placeholder="Şifrə" />
+                <span class="text-danger" asp-validation-for="@Model.ConfirmedPassword"></span>
+                <br />
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <br />
+                <div class="d-flex justify-content-center align-items-center">
+                    <button class="btn btn-primary mt-3 w-50 py-2" type="submit">Ynenilə</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+
+

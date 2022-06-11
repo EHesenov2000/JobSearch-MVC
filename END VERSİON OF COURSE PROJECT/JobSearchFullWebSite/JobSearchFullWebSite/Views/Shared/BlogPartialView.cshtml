@@ -1,0 +1,93 @@
+﻿@using JobSearchFullWebSite.Models
+@model List<BlogItem>
+
+@foreach (var item in Model)
+{
+    <div class="col-lg-4 col-md-6 col-12">
+        <div class="card p-3 BlogCard">
+            <div class="BlogCardImage border-radius overflow-hidden">
+                @if (item != null)
+                {
+                    if (item.ContainerImage != null)
+                    {
+                        <img src="~/images/blogImage/@item.ContainerImage"
+                             alt=""
+                             style="width: 100%; height: 200px" />
+                    }
+                    else
+                    {
+                        <img src="https://apusthemes.com/wp-demo/superio/wp-content/themes/superio/images/placeholder.png"
+                             alt=""
+                             style="width: 100%; height: 200px" />
+                    }
+                }
+                else
+                {
+                    <img src="https://apusthemes.com/wp-demo/superio/wp-content/themes/superio/images/placeholder.png"
+                         alt=""
+                         style="width: 100%; height: 200px" />
+                }
+
+            </div>
+            <div class="container mt-3">
+                <div class="row overflow-hidden ">
+                    <div class="col-lg-5 col-md-6 col-12 grey"
+                         style="font-size: 14px">
+                       @item.CreatedAt.ToString("MM.dd.yyyy")
+                    </div>
+                    <div class="
+                      col-lg-7 col-md-6 col-12
+                      grey
+                      d-flex
+                      flex-row
+                      align-items-center
+                    "
+                         style="font-size: 14px">
+                        <div class="border-radius"
+                             style="height: 5px; width: 5px; background-color: grey"></div>
+                        &nbsp;
+                        @if (item.Subject.Length >= 18)
+                        {
+                            <span>@item.Subject.Substring(0, 18) ...</span>
+                        }
+                        else
+                        {
+                            <span>@item.Subject</span>
+
+                        }
+                    </div>
+                    @*<div class="
+                      col-lg-4 col-md-6 col-12
+                      grey
+                      d-flex
+                      flex-row
+                      align-items-center
+                    "
+                         style="font-size: 14px">
+                        <div class="border-radius"
+                             style="height: 5px; width: 5px; background-color: grey"></div>
+                        &nbsp;
+                        <span>3 Comments</span>
+                    </div>*@
+                </div>
+                <br />
+                <a  class="black text-decoration-none" asp-action="detail" asp-controller="blog" asp-route-id="@item.Id">
+                    <h5><b>@item.Title</b></h5>
+                </a>
+                <p class="grey">
+                    @if (Html.Raw(item.DescriptionTextEditor).ToString().Length > 50)
+                    {
+                        @Html.Raw(item.DescriptionTextEditor).ToString().Substring(3,44)<span>...</span>
+                    }
+                    else
+                    {
+                        @Html.Raw(item.DescriptionTextEditor)
+                    }
+                </p>
+                <br />
+                <a class="readMoreBottomLine text-decoration-none" asp-action="detail" asp-controller="blog" asp-route-id="@item.Id">Ətraflı ></a>
+            </div>
+        </div>
+    </div>
+
+}
